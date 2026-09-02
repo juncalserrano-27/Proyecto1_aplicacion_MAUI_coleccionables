@@ -1,12 +1,13 @@
 using RepasoMAUI.ViewModels;
 
-namespace RepasoMAUI.Views;
-
-public partial class DetallePage : ContentPage
+namespace RepasoMAUI.Views
 {
-    public DetallePage(DetalleViewModel vm)
+    public partial class DetallePage : ContentPage
     {
-        InitializeComponent();
-        BindingContext = vm;
+        public DetallePage(DetalleViewModel vm)
+        {
+            InitializeComponent();
+            BindingContext = vm;
+        }
     }
 }

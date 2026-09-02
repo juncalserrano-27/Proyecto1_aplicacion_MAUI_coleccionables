@@ -5,6 +5,6 @@
              x:Class="RepasoMAUI.Views.FavoritosPage"
              x:DataType="vm:FavoritosViewModel"
              Title="FavoritosPage"
-    
-    
+    >
+
 </ContentPage>
