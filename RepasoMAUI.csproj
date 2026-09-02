@@ -72,12 +72,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\DetallePage - Copia.xaml.cs">
+	    <DependentUpon>FavoritosPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\FavoritosPage - Copia.xaml.cs">
+	    <DependentUpon>FormularioPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ListaPage.xaml.cs">
 	    <DependentUpon>ListaPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\FormularioPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FavoritosPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\DetallePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
