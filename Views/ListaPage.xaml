@@ -27,10 +27,10 @@
                     <VerticalStackLayout Grid.Column="1"
                                          Margin="10,0,0,0"
                                          VerticalOptions="Center">
-                        <Label Text="{Binding Nombre}"
+                        <Label Text="{Binding Modelo}"
                                FontAttributes="Bold"
                                FontSize="16" />
-                        <Label Text="{Binding Descripcion}"
+                        <Label Text="{Binding Color}"
                                FontSize="12"
                                TextColor="Gray"
                                LineBreakMode="TailTruncation" />

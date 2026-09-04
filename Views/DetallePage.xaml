@@ -14,10 +14,10 @@
                HeightRequest="200"
                Aspect="AspectFit" />
 
-         <Label Text="{Binding Producto.Nombre}"
+         <Label Text="{Binding Producto.Modelo}"
                FontSize="22"
                FontAttributes="Bold" />
-         <Label Text="{Binding Producto.Descripcion}"
+         <Label Text="{Binding Producto.Color}"
                FontSize="14"
                TextColor="Gray" />
          <Label Text="{Binding Producto.Precio, StringFormat='${0:N2}'}"

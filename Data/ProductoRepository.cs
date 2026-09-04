@@ -4,13 +4,14 @@ namespace RepasoMAUI.Data
 {
     public class ProductoRepository
     {
-        private readonly List<Producto> _productos =
-    [
-        new(){ Id = "1", Nombre = "Teclado Mecánico", Descripcion = "Teclado mecánico switches azules, retroiluminado.", Precio = 899.00m, ImagenUrl = "teclado.png" },
-        new(){ Id = "2", Nombre = "Mouse Inalámbrico", Descripcion = "Mouse inalámbrico ergonómico, 2.4GHz.", Precio = 349.00m, ImagenUrl = "mouse.png" },
-        new(){ Id = "3", Nombre = "Monitor 27\"", Descripcion = "Monitor 27 pulgadas, 144Hz, IPS.", Precio = 4599.00m, ImagenUrl = "monitor.png" },
-        new(){ Id = "4", Nombre = "Audífonos USB", Descripcion = "Audífonos con micrófono, cancelación de ruido.", Precio = 599.00m, ImagenUrl = "audifonos.png" }
-    ];
+        
+        private readonly List<Producto> _productos = 
+        [
+            new(){ Id = "1", Modelo = "Sabrina 2", Color = "Blanco/Rosa", Precio = 2499.00m, ImagenUrl = "sabrina_dos_rosas.jpg" },
+            new(){ Id = "2", Modelo = "LeBron 22", Color = "Negro/Rojo", Precio = 3799.00m, ImagenUrl = "lebron22.png" },
+            new(){ Id = "3", Modelo = "Curry 12", Color = "Azul/Blanco", Precio = 3299.00m, ImagenUrl = "curry12.png" },
+            new(){ Id = "4", Modelo = "AE 1", Color = "Negro/Blanco", Precio = 2999.00m, ImagenUrl = "ae1.png" }
+        ];
 
         public List<Producto> ObtenerTodos() => _productos;
 
