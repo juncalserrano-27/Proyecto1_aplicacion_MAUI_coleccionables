@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using RepasoMAUI.Data;
 using RepasoMAUI.Models;
+using RepasoMAUI.Views;
 
 namespace RepasoMAUI.ViewModels
 {
@@ -35,6 +36,12 @@ namespace RepasoMAUI.ViewModels
                 return;
 
             _repo.AgregarFavorito(Producto);
+        }
+
+        [RelayCommand]
+        static async Task IrAFavoritos()
+        {
+            await Shell.Current.GoToAsync(nameof(FavoritosPage));
         }
 
     }

@@ -10,11 +10,5 @@
     <ShellContent Title="Catálogo"
                   ContentTemplate="{DataTemplate views:ListaPage}"
                   Route="lista" />
-    <ShellContent Title="WishList"
-          ContentTemplate="{DataTemplate views:FavoritosPage}"
-          Route="wishlist" />
-    <ShellContent Title="Agregar Productos"
-              ContentTemplate="{DataTemplate views:FormularioPage}"
-              Route="agregarProductos" />
 
 </Shell>

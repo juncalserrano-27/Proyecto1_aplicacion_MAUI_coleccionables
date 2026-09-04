@@ -6,8 +6,15 @@
              x:DataType="vm:DetalleViewModel"
              Title="DetallePage"
              >
+    <ContentPage.ToolbarItems>
 
-     <VerticalStackLayout Padding="20"
+        <ToolbarItem
+        Text="❤️ Favoritos"
+        Command="{Binding IrAFavoritosCommand}" />
+
+    </ContentPage.ToolbarItems>
+
+    <VerticalStackLayout Padding="20"
                          Spacing="15">
 
          <Image Source="{Binding Producto.ImagenUrl}"
