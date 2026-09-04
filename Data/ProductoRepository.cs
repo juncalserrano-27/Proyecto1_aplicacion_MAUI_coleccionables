@@ -15,5 +15,30 @@ namespace RepasoMAUI.Data
         public List<Producto> ObtenerTodos() => _productos;
 
         public Producto ObtenerPorId(string id) => _productos.FirstOrDefault(p => p.Id == id);
+
+        private readonly List<Producto> _favoritos = new();
+
+        public List<Producto> ObtenerFavoritos() => _favoritos;
+
+        public void AgregarFavorito(Producto producto)
+        {
+            if (!_favoritos.Any(p => p.Id == producto.Id))
+            {
+                _favoritos.Add(producto);
+            }
+        }
+
+        public void EliminarFavoritos(List<Producto> productos)
+        {
+            foreach (var producto in productos)
+            {
+                var favorito = _favoritos.FirstOrDefault(p => p.Id == producto.Id);
+
+                if (favorito != null)
+                {
+                    _favoritos.Remove(favorito);
+                }
+            }
+        }
     }
 }
