@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using RepasoMAUI.Data;
 using RepasoMAUI.Models;
 
@@ -25,6 +26,15 @@ namespace RepasoMAUI.ViewModels
         partial void OnIdChanged(string value)
         {
             Producto = _repo.ObtenerPorId(value);
+        }
+
+        [RelayCommand]
+        private void AgregarFavorito()
+        {
+            if (Producto == null)
+                return;
+
+            _repo.AgregarFavorito(Producto);
         }
 
     }
