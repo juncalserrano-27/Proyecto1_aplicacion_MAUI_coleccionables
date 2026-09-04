@@ -7,10 +7,10 @@ namespace RepasoMAUI.Data
         
         private readonly List<Producto> _productos = 
         [
-            new(){ Id = "1", Modelo = "Sabrina 2", Color = "Blanco/Rosa", Precio = 2499.00m, ImagenUrl = "sabrina_dos_rosas.jpg" },
-            new(){ Id = "2", Modelo = "LeBron 22", Color = "Negro/Rojo", Precio = 3799.00m, ImagenUrl = "lebron22.png" },
-            new(){ Id = "3", Modelo = "Curry 12", Color = "Azul/Blanco", Precio = 3299.00m, ImagenUrl = "curry12.png" },
-            new(){ Id = "4", Modelo = "AE 1", Color = "Negro/Blanco", Precio = 2999.00m, ImagenUrl = "ae1.png" }
+            new(){ Id = "1", Modelo = "Sabrina 2", Color = "Rosa", Precio = 2499.00m, ImagenUrl = "sabrina_dos_rosas.jpg" },
+            new(){ Id = "2", Modelo = "LeBron 22", Color = "Blanco", Precio = 3799.00m, ImagenUrl = "lebron_22_blancos.jpg" },
+            new(){ Id = "3", Modelo = "Curry 12", Color = "Negro", Precio = 3299.00m, ImagenUrl = "curry12_negros.jpg" },
+            new(){ Id = "4", Modelo = "AE 1", Color = "Blanco", Precio = 2999.00m, ImagenUrl = "ae_1_blancos.jpg" }
         ];
 
         public List<Producto> ObtenerTodos() => _productos;
