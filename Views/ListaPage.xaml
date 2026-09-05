@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RepasoMAUI.Models"
@@ -7,20 +7,28 @@
              x:Class="RepasoMAUI.Views.ListaPage">
 
     <ContentPage.ToolbarItems>
-
-        <ToolbarItem
-        Text="❤️ Favoritos"
-        Command="{Binding IrAFavoritosCommand}" />
-
+        <ToolbarItem Text=" Agregar"
+                     Command="{Binding IrAFormularioCommand}" />
+        <ToolbarItem Text=" Eliminar"
+                     Command="{Binding ActivarEliminarCommand}" />
+        <ToolbarItem Text=" Favoritos"
+                     Command="{Binding IrAFavoritosCommand}" />
     </ContentPage.ToolbarItems>
-    
+
     <CollectionView ItemsSource="{Binding Productos}"
                     SelectionMode="None"
                     Margin="10">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:Producto">
                 <Grid Padding="10"
-                      ColumnDefinitions="80,*,Auto">
+                      ColumnDefinitions="40,80,*,Auto">
+
+                    <!-- Checkbox: solo visible en modo eliminar -->
+                    <CheckBox Grid.Column="0"
+                              IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:ListaViewModel}}, Path=ModoEliminar}"
+                              CheckedChanged="CheckBox_CheckedChanged"
+                              VerticalOptions="Center" />
+
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ListaViewModel}}, Path=VerDetalleCommand}"
                                               CommandParameter="{Binding .}" />
@@ -30,9 +38,9 @@
                            HeightRequest="60"
                            WidthRequest="60"
                            Aspect="AspectFill"
-                           Grid.Column="0" />
+                           Grid.Column="1" />
 
-                    <VerticalStackLayout Grid.Column="1"
+                    <VerticalStackLayout Grid.Column="2"
                                          Margin="10,0,0,0"
                                          VerticalOptions="Center">
                         <Label Text="{Binding Modelo}"
@@ -45,7 +53,7 @@
                     </VerticalStackLayout>
 
                     <Label Text="{Binding Precio, StringFormat='${0:N2}'}"
-                           Grid.Column="2"
+                           Grid.Column="3"
                            VerticalOptions="Center"
                            FontAttributes="Bold" />
                 </Grid>

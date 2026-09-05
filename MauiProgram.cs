@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using RepasoMAUI.Data;
 using RepasoMAUI.ViewModels;
 using RepasoMAUI.Views;
@@ -29,9 +29,13 @@ namespace RepasoMAUI
             builder.Services.AddTransient<DetalleViewModel>();
             builder.Services.AddTransient<DetallePage>();
 
-            //Favoritos
+            // Favoritos
             builder.Services.AddTransient<FavoritosViewModel>();
             builder.Services.AddTransient<FavoritosPage>();
+
+            // Formulario (Agregar Productos)
+            builder.Services.AddTransient<FormularioViewModel>();
+            builder.Services.AddTransient<FormularioPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();
