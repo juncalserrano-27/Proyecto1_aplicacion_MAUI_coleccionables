@@ -4,8 +4,34 @@
              xmlns:vm="clr-namespace:RepasoMAUI.ViewModels"
              x:Class="RepasoMAUI.Views.FormularioPage"
              x:DataType="vm:FormularioViewModel"
-             Title="FormularioPage"
-             >
-    
-    
+             Title="Agregar Producto">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label Text="Modelo" FontAttributes="Bold" />
+            <Entry Text="{Binding Modelo}" Placeholder="Ej. LeBron 22" />
+
+            <Label Text="Color" FontAttributes="Bold" />
+            <Entry Text="{Binding Color}" Placeholder="Ej. Negro/Rojo" />
+
+            <Label Text="Precio" FontAttributes="Bold" />
+            <Entry Text="{Binding Precio}" Keyboard="Numeric" Placeholder="Ej. 3799" />
+
+            <Label Text="Imagen (nombre del archivo)" FontAttributes="Bold" />
+            <Entry Text="{Binding ImagenUrl}" Placeholder="Ej. lebron_22_blancos.jpg" />
+
+            <Button Text="Guardar"
+                    Command="{Binding GuardarCommand}"
+                    Margin="0,10,0,0" />
+
+            <Label Text="{Binding Mensaje}"
+                   TextColor="Red"
+                   HorizontalTextAlignment="Center"
+                   FontSize="16"
+                   Margin="0,10,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
