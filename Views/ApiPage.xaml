@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:RepasoMAUI.Models"
+             xmlns:vm="clr-namespace:RepasoMAUI.ViewModels"
+             x:DataType="vm:ApiViewModel"
+             x:Class="RepasoMAUI.Views.ApiPage"
+             Title="Catálogo Online">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Ruedita de carga -->
+        <ActivityIndicator Grid.Row="0"
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Margin="20"
+                           HorizontalOptions="Center" />
+
+        <!-- Mensaje de error + botón para reintentar -->
+        <VerticalStackLayout Grid.Row="0"
+                             IsVisible="{Binding HasError}"
+                             Padding="20"
+                             Spacing="10"
+                             HorizontalOptions="Center">
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   HorizontalTextAlignment="Center" />
+            <Button Text="Reintentar"
+                    Command="{Binding CargarProductosCommand}" />
+        </VerticalStackLayout>
+
+        <!-- Lista (visible solo cuando NO está cargando) -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Productos}"
+                        IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                        SelectionMode="None"
+                        Margin="10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Producto">
+                    <Grid Padding="10" ColumnDefinitions="70,*,Auto">
+                        <Image Source="{Binding ImagenUrl}"
+                               HeightRequest="60"
+                               WidthRequest="60"
+                               Aspect="AspectFit"
+                               Grid.Column="0" />
+
+                        <VerticalStackLayout Grid.Column="1"
+                                             Margin="10,0,0,0"
+                                             VerticalOptions="Center">
+                            <Label Text="{Binding Modelo}"
+                                   FontAttributes="Bold"
+                                   FontSize="15"
+                                   LineBreakMode="TailTruncation" />
+                            <Label Text="{Binding Color}"
+                                   FontSize="12"
+                                   TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <Label Text="{Binding Precio, StringFormat='${0:N2}'}"
+                               Grid.Column="2"
+                               VerticalOptions="Center"
+                               FontAttributes="Bold" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

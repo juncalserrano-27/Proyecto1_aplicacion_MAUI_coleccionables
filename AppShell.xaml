@@ -11,4 +11,8 @@
                   ContentTemplate="{DataTemplate views:ListaPage}"
                   Route="lista" />
 
+    <ShellContent Title="Catálogo Online"
+                  ContentTemplate="{DataTemplate views:ApiPage}"
+                  Route="api" />
+
 </Shell>

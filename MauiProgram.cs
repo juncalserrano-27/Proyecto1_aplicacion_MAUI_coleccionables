@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using RepasoMAUI.Data;
+using RepasoMAUI.Services;
 using RepasoMAUI.ViewModels;
 using RepasoMAUI.Views;
 
@@ -36,6 +37,11 @@ namespace RepasoMAUI
             // Formulario (Agregar Productos)
             builder.Services.AddTransient<FormularioViewModel>();
             builder.Services.AddTransient<FormularioPage>();
+
+            // Catálogo Online (HttpClient / API)
+            builder.Services.AddSingleton<ProductoApiService>();
+            builder.Services.AddTransient<ApiViewModel>();
+            builder.Services.AddTransient<ApiPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();
