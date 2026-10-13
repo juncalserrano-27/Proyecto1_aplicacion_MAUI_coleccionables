@@ -7,64 +7,87 @@
              x:Class="RepasoMAUI.Views.ApiPage"
              Title="Catálogo Online">
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,Auto,*"
+          Padding="16"
+          RowSpacing="12">
 
-        <!-- Ruedita de carga -->
+        <!-- Busy Indicator de Fiori -->
         <ActivityIndicator Grid.Row="0"
                            IsRunning="{Binding IsLoading}"
                            IsVisible="{Binding IsLoading}"
-                           Margin="20"
                            HorizontalOptions="Center" />
 
-        <!-- Mensaje de error + botón para reintentar -->
-        <VerticalStackLayout Grid.Row="0"
-                             IsVisible="{Binding HasError}"
-                             Padding="20"
-                             Spacing="10"
-                             HorizontalOptions="Center">
-            <Label Text="{Binding ErrorMessage}"
-                   TextColor="Red"
-                   HorizontalTextAlignment="Center" />
-            <Button Text="Reintentar"
-                    Command="{Binding CargarProductosCommand}" />
-        </VerticalStackLayout>
+        <!-- Message Strip de error + acción para reintentar -->
+        <Border Grid.Row="0"
+                Style="{StaticResource FioriMensajeError}"
+                IsVisible="{Binding HasError}">
+            <Grid ColumnDefinitions="*,Auto"
+                  ColumnSpacing="12">
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="{StaticResource FioriNegative}"
+                       VerticalOptions="Center" />
+                <Button Grid.Column="1"
+                        Text="Reintentar"
+                        Style="{StaticResource FioriBotonSecundario}"
+                        Command="{Binding CargarProductosCommand}" />
+            </Grid>
+        </Border>
+
+        <Label Grid.Row="1"
+               Style="{StaticResource FioriTituloSeccion}"
+               Text="{Binding Productos.Count, StringFormat='Productos ({0})'}"
+               IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
 
         <!-- Lista (visible solo cuando NO está cargando) -->
-        <CollectionView Grid.Row="1"
-                        ItemsSource="{Binding Productos}"
-                        IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-                        SelectionMode="None"
-                        Margin="10">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Producto">
-                    <Grid Padding="10" ColumnDefinitions="70,*,Auto">
-                        <Image Source="{Binding ImagenUrl}"
-                               HeightRequest="60"
-                               WidthRequest="60"
-                               Aspect="AspectFit"
-                               Grid.Column="0" />
+        <Border Grid.Row="2"
+                Style="{StaticResource FioriTarjeta}"
+                IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
+            <CollectionView ItemsSource="{Binding Productos}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Producto">
+                        <VerticalStackLayout>
+                            <Grid Padding="16,12"
+                                  ColumnSpacing="12"
+                                  ColumnDefinitions="56,*,Auto">
 
-                        <VerticalStackLayout Grid.Column="1"
-                                             Margin="10,0,0,0"
-                                             VerticalOptions="Center">
-                            <Label Text="{Binding Modelo}"
-                                   FontAttributes="Bold"
-                                   FontSize="15"
-                                   LineBreakMode="TailTruncation" />
-                            <Label Text="{Binding Color}"
-                                   FontSize="12"
-                                   TextColor="Gray" />
+                                <Border Style="{StaticResource FioriAvatar}"
+                                        BackgroundColor="{StaticResource White}"
+                                        HeightRequest="56"
+                                        WidthRequest="56">
+                                    <Image Source="{Binding ImagenUrl}"
+                                           Aspect="AspectFit" />
+                                </Border>
+
+                                <VerticalStackLayout Grid.Column="1"
+                                                     VerticalOptions="Center"
+                                                     Spacing="2">
+                                    <Label Text="{Binding Modelo}"
+                                           Style="{StaticResource FioriItemTitulo}" />
+                                    <Label Text="{Binding Color}"
+                                           Style="{StaticResource FioriEtiqueta}" />
+                                </VerticalStackLayout>
+
+                                <Label Grid.Column="2"
+                                       Style="{StaticResource FioriNumero}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Precio, StringFormat='${0:N2}'}"
+                                                  FontFamily="Fiori72Bold" />
+                                            <Span Text=" USD"
+                                                  FontFamily="Fiori72"
+                                                  FontSize="12"
+                                                  TextColor="{StaticResource FioriLabel}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+
+                            <BoxView Style="{StaticResource FioriSeparador}" />
                         </VerticalStackLayout>
-
-                        <Label Text="{Binding Precio, StringFormat='${0:N2}'}"
-                               Grid.Column="2"
-                               VerticalOptions="Center"
-                               FontAttributes="Bold" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
     </Grid>
-
 </ContentPage>

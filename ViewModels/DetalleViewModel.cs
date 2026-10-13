@@ -17,6 +17,10 @@ namespace RepasoMAUI.ViewModels
         [ObservableProperty]
         private Producto producto;
 
+        // Confirmación que se muestra al agregar a favoritos
+        [ObservableProperty]
+        private string mensaje = string.Empty;
+
         public DetalleViewModel(ProductoRepository repo)
         {
             _repo = repo;
@@ -36,6 +40,7 @@ namespace RepasoMAUI.ViewModels
                 return;
 
             _repo.AgregarFavorito(Producto);
+            Mensaje = "✓ Agregado a favoritos";
         }
 
         [RelayCommand]

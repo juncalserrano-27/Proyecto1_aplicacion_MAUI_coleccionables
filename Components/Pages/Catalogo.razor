@@ -2,20 +2,27 @@
 @inject ProductoRepository Repo
 @inject NavigationManager Navigation
 
-<h2>Catálogo</h2>
-
 @* Data binding: @bind con oninput filtra mientras escribes *@
 <input placeholder="Buscar producto..." @bind="busqueda" @bind:event="oninput" />
 
-@if (Filtrados.Count == 0)
-{
-    <p>No hay productos.</p>
-}
+<h2 class="titulo-seccion" style="margin-top:16px;">Productos (@Filtrados.Count)</h2>
 
-@foreach (var producto in Filtrados)
-{
-    <ProductoCard Producto="producto" OnProductoSeleccionado="VerDetalle" />
-}
+<div class="tarjeta">
+    @if (Filtrados.Count == 0)
+    {
+        @* Illustrated Message: estado vacío *@
+        <div class="vacio">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#556B82" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5 21 21" /></svg>
+            <h3>No hay resultados</h3>
+            <p class="etiqueta">Prueba con otro nombre.</p>
+        </div>
+    }
+
+    @foreach (var producto in Filtrados)
+    {
+        <ProductoCard Producto="producto" OnProductoSeleccionado="VerDetalle" />
+    }
+</div>
 
 @code {
     private List<Producto> productos = new();

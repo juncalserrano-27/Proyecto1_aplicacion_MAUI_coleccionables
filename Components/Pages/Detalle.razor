@@ -6,25 +6,36 @@
 
 @if (producto is null)
 {
-    <p class="error">Producto no encontrado.</p>
+    <div class="message-strip error">Producto no encontrado.</div>
 }
 else
 {
-    <div class="card" style="flex-direction:column; align-items:flex-start;">
-        <img src="@($"images/{producto.ImagenUrl}")" style="width:100%; height:auto;" />
-        <h2>@producto.Modelo</h2>
-        <div class="sub">@producto.Color</div>
-        <div class="precio">$@producto.Precio.ToString("N2")</div>
+    @* Object Page Header *@
+    <div class="tarjeta con-padding">
+        <img src="@($"images/{producto.ImagenUrl}")" style="width:100%; max-height:240px; object-fit:cover; border-radius:8px;" />
+        <h1 class="titulo-objeto" style="margin-top:12px;">@producto.Modelo</h1>
+        <div class="etiqueta">@producto.Color</div>
+        <div class="numero grande" style="margin-top:8px;">$@producto.Precio.ToString("N2") <span class="unidad">MXN</span></div>
+        <div class="positivo" style="margin-top:8px;">@mensaje</div>
+    </div>
 
-        <button class="btn" @onclick="AgregarFavorito">❤️ Agregar a favoritos</button>
-        <span class="exito">@mensaje</span>
+    @* Sección del Object Page: formulario de solo lectura *@
+    <h2 class="titulo-seccion">Información general</h2>
+    <div class="tarjeta con-padding">
+        <div class="etiqueta">Modelo:</div>
+        <div style="margin-bottom:12px;">@producto.Modelo</div>
+        <div class="etiqueta">Color:</div>
+        <div>@producto.Color</div>
+    </div>
 
+    @* Footer Toolbar: acciones abajo a la derecha, la principal en azul *@
+    <div class="footer">
+        <button class="btn btn-sec" @onclick='() => Navigation.NavigateTo("/")'>Regresar</button>
         @* Convivencia Razor + MAUI: desde Blazor abrimos una página XAML nativa *@
-        <button class="btn btn-sec" @onclick="IrAFavoritosNativo">Ver favoritos (página XAML)</button>
+        <button class="btn btn-sec" @onclick="IrAFavoritosNativo">Ver favoritos</button>
+        <button class="btn" @onclick="AgregarFavorito">Agregar a favoritos</button>
     </div>
 }
-
-<button class="btn btn-sec" @onclick='() => Navigation.NavigateTo("/")'>← Regresar</button>
 
 @code {
     // Ruta parametrizada: el {Id} de la URL llega a esta propiedad
@@ -44,7 +55,7 @@ else
     private void AgregarFavorito()
     {
         Repo.AgregarFavorito(producto!);
-        mensaje = "Agregado a favoritos";
+        mensaje = "✓ Agregado a favoritos";
     }
 
     private async Task IrAFavoritosNativo()

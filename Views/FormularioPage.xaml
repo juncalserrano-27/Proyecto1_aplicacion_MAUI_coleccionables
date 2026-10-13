@@ -4,34 +4,90 @@
              xmlns:vm="clr-namespace:RepasoMAUI.ViewModels"
              x:Class="RepasoMAUI.Views.FormularioPage"
              x:DataType="vm:FormularioViewModel"
-             Title="Agregar Producto">
+             Title="Agregar producto">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="12">
+    <!-- Patrón Fiori de formulario: etiquetas arriba del campo (móvil),
+         obligatorios con asterisco y acciones en el Footer Toolbar -->
+    <Grid RowDefinitions="*,Auto">
 
-            <Label Text="Modelo" FontAttributes="Bold" />
-            <Entry Text="{Binding Modelo}" Placeholder="Ej. LeBron 22" />
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="16"
+                                 Spacing="12">
 
-            <Label Text="Color" FontAttributes="Bold" />
-            <Entry Text="{Binding Color}" Placeholder="Ej. Negro/Rojo" />
+                <!-- Message Strip de error: solo se ve cuando hay mensaje -->
+                <Border Style="{StaticResource FioriMensajeError}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding Mensaje}" Value="{x:Null}">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding Mensaje}" Value="">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Label Text="{Binding Mensaje}"
+                           TextColor="{StaticResource FioriNegative}" />
+                </Border>
 
-            <Label Text="Precio" FontAttributes="Bold" />
-            <Entry Text="{Binding Precio}" Keyboard="Numeric" Placeholder="Ej. 3799" />
+                <Label Text="Datos del producto"
+                       Style="{StaticResource FioriTituloSeccion}" />
 
-            <Label Text="Imagen (nombre del archivo)" FontAttributes="Bold" />
-            <Entry Text="{Binding ImagenUrl}" Placeholder="Ej. lebron_22_blancos.jpg" />
+                <Border Style="{StaticResource FioriTarjeta}"
+                        Padding="16">
+                    <VerticalStackLayout Spacing="4">
 
-            <Button Text="Guardar"
-                    Command="{Binding GuardarCommand}"
-                    Margin="0,10,0,0" />
+                        <Label Style="{StaticResource FioriEtiqueta}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Modelo" />
+                                    <Span Text=" *" TextColor="{StaticResource FioriNegative}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Border Style="{StaticResource FioriCampo}">
+                            <Entry Text="{Binding Modelo}" Placeholder="Ej. LeBron 22" />
+                        </Border>
 
-            <Label Text="{Binding Mensaje}"
-                   TextColor="Red"
-                   HorizontalTextAlignment="Center"
-                   FontSize="16"
-                   Margin="0,10,0,0" />
+                        <Label Style="{StaticResource FioriEtiqueta}" Margin="0,8,0,0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Color" />
+                                    <Span Text=" *" TextColor="{StaticResource FioriNegative}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Border Style="{StaticResource FioriCampo}">
+                            <Entry Text="{Binding Color}" Placeholder="Ej. Negro/Rojo" />
+                        </Border>
 
-        </VerticalStackLayout>
-    </ScrollView>
+                        <Label Text="Precio (MXN)"
+                               Style="{StaticResource FioriEtiqueta}"
+                               Margin="0,8,0,0" />
+                        <Border Style="{StaticResource FioriCampo}">
+                            <Entry Text="{Binding Precio}" Keyboard="Numeric" Placeholder="Ej. 3799" />
+                        </Border>
 
+                        <Label Text="Imagen (nombre del archivo)"
+                               Style="{StaticResource FioriEtiqueta}"
+                               Margin="0,8,0,0" />
+                        <Border Style="{StaticResource FioriCampo}">
+                            <Entry Text="{Binding ImagenUrl}" Placeholder="Ej. lebron_22_blancos.jpg" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Footer Toolbar: Cancelar (secundario) y Guardar (principal) a la derecha -->
+        <Border Grid.Row="1"
+                Style="{StaticResource FioriFooter}">
+            <HorizontalStackLayout HorizontalOptions="End"
+                                   Spacing="8">
+                <Button Text="Cancelar"
+                        Style="{StaticResource FioriBotonSecundario}"
+                        Command="{Binding CancelarCommand}" />
+                <Button Text="Guardar"
+                        Command="{Binding GuardarCommand}" />
+            </HorizontalStackLayout>
+        </Border>
+    </Grid>
 </ContentPage>

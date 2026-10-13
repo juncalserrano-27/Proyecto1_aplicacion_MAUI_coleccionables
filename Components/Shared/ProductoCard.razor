@@ -1,12 +1,13 @@
-@* Componente hijo reutilizable: recibe un producto y avisa al padre cuando lo seleccionan *@
-<div class="card">
-    <img src="@($"images/{Producto.ImagenUrl}")" />
-    <div class="info">
-        <div class="titulo">@Producto.Modelo</div>
-        <div class="sub">@Producto.Color</div>
-        <div class="precio">$@Producto.Precio.ToString("N2") @Moneda</div>
+@* Componente hijo reutilizable: un "Standard List Item" de Fiori.
+   Recibe un producto y avisa al padre cuando lo seleccionan. *@
+<div class="list-item" @onclick="Seleccionar">
+    <img class="avatar" src="@($"images/{Producto.ImagenUrl}")" />
+    <div class="textos">
+        <div class="item-titulo">@Producto.Modelo</div>
+        <div class="etiqueta">@Producto.Color</div>
     </div>
-    <button class="btn" @onclick="Seleccionar">Ver</button>
+    <div class="numero">$@Producto.Precio.ToString("N2") <span class="unidad">@Moneda</span></div>
+    <span class="flecha">›</span>
 </div>
 
 @code {

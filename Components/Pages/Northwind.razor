@@ -1,30 +1,36 @@
 @page "/northwind"
 @inject NorthwindService ODataService
 
-<h2>Productos Northwind (OData)</h2>
-<p class="sub">Precio mayor a $20, ordenados del más caro al más barato.</p>
+<h2 class="titulo-seccion">Productos Northwind (OData)</h2>
+<p class="etiqueta" style="margin-top:-6px;">Precio mayor a $20, del más caro al más barato.</p>
 
 @if (cargando)
 {
-    <p>Cargando...</p>
+    @* Busy Indicator *@
+    <div class="busy">Cargando...</div>
 }
 else if (error is not null)
 {
-    <p class="error">@error</p>
-    <button class="btn" @onclick="Cargar">Reintentar</button>
+    @* Message Strip de error con acción para reintentar *@
+    <div class="message-strip error">
+        <span>@error</span>
+        <button class="btn btn-sec" @onclick="Cargar">Reintentar</button>
+    </div>
 }
 else
 {
-    @foreach (var p in productos)
-    {
-        <div class="card">
-            <div class="info">
-                <div class="titulo">@p.ProductName</div>
-                <div class="sub">Existencias: @p.UnitsInStock</div>
+    <div class="tarjeta">
+        @foreach (var p in productos)
+        {
+            <div class="list-item">
+                <div class="textos">
+                    <div class="item-titulo">@p.ProductName</div>
+                    <div class="etiqueta">Existencias: @p.UnitsInStock</div>
+                </div>
+                <div class="numero">$@p.UnitPrice.ToString("N2") <span class="unidad">USD</span></div>
             </div>
-            <div class="precio">$@p.UnitPrice.ToString("N2")</div>
-        </div>
-    }
+        }
+    </div>
 }
 
 @code {

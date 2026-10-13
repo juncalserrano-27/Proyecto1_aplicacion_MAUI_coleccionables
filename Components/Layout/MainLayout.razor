@@ -1,12 +1,12 @@
 @inherits LayoutComponentBase
 
-@* Shell Bar estilo SAP Fiori *@
+@* Icon Tab Bar de Fiori para navegar entre páginas
+   (el título ya lo muestra la Shell Bar nativa de MAUI) *@
 <div class="shellbar">
-    RepasoMAUI · Blazor Hybrid
-    <nav>
+    <nav class="tabbar">
         <NavLink href="/" Match="NavLinkMatch.All">Catálogo</NavLink>
         <NavLink href="/agregar">Agregar</NavLink>
-        <NavLink href="/northwind">Northwind (OData)</NavLink>
+        <NavLink href="/northwind">Northwind</NavLink>
     </nav>
 </div>
 

@@ -4,35 +4,84 @@
              xmlns:vm="clr-namespace:RepasoMAUI.ViewModels"
              x:Class="RepasoMAUI.Views.DetallePage"
              x:DataType="vm:DetalleViewModel"
-             Title="DetallePage"
-             >
-    <ContentPage.ToolbarItems>
+             Title="Detalle del producto">
 
-        <ToolbarItem
-        Text="❤️ Favoritos"
-        Command="{Binding IrAFavoritosCommand}" />
+    <!-- Patrón Fiori "Object Page": encabezado del objeto, secciones y Footer Toolbar -->
+    <Grid RowDefinitions="*,Auto">
 
-    </ContentPage.ToolbarItems>
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="16"
+                                 Spacing="12">
 
-    <VerticalStackLayout Padding="20"
-                         Spacing="15">
+                <!-- Object Page Header -->
+                <Border Style="{StaticResource FioriTarjeta}"
+                        Padding="16">
+                    <VerticalStackLayout Spacing="8">
+                        <Border Style="{StaticResource FioriAvatar}"
+                                HeightRequest="220">
+                            <Image Source="{Binding Producto.ImagenUrl}"
+                                   Aspect="AspectFit" />
+                        </Border>
 
-         <Image Source="{Binding Producto.ImagenUrl}"
-               HeightRequest="200"
-               Aspect="AspectFit" />
+                        <Label Text="{Binding Producto.Modelo}"
+                               Style="{StaticResource FioriTitulo}" />
+                        <Label Text="{Binding Producto.Color}"
+                               Style="{StaticResource FioriEtiqueta}" />
 
-         <Label Text="{Binding Producto.Modelo}"
-               FontSize="22"
-               FontAttributes="Bold" />
-         <Label Text="{Binding Producto.Color}"
-               FontSize="14"
-               TextColor="Gray" />
-         <Label Text="{Binding Producto.Precio, StringFormat='${0:N2}'}"
-               FontSize="20"
-               FontAttributes="Bold"
-               TextColor="DarkGreen" />
-         <Button
-               Text="❤️ Agregar a Favoritos"
-               Command="{Binding AgregarFavoritoCommand}" />
-    </VerticalStackLayout>
+                        <Label FontFamily="Fiori72Bold"
+                               FontSize="24">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding Producto.Precio, StringFormat='${0:N2}'}"
+                                          FontFamily="Fiori72Bold" />
+                                    <Span Text=" MXN"
+                                          FontFamily="Fiori72"
+                                          FontSize="14"
+                                          TextColor="{StaticResource FioriLabel}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <!-- Confirmación en verde (color semántico "positive") -->
+                        <Label Text="{Binding Mensaje}"
+                               TextColor="{StaticResource FioriPositive}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Sección del Object Page -->
+                <Label Text="Información general"
+                       Style="{StaticResource FioriTituloSeccion}" />
+
+                <Border Style="{StaticResource FioriTarjeta}"
+                        Padding="16">
+                    <!-- Formulario de solo lectura: etiqueta a la izquierda, valor a la derecha -->
+                    <Grid ColumnDefinitions="*,*"
+                          RowDefinitions="Auto,Auto,Auto"
+                          RowSpacing="12">
+                        <Label Grid.Row="0" Text="Modelo:" Style="{StaticResource FioriEtiqueta}" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Producto.Modelo}" />
+
+                        <Label Grid.Row="1" Text="Color:" Style="{StaticResource FioriEtiqueta}" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Producto.Color}" />
+
+                        <Label Grid.Row="2" Text="Precio:" Style="{StaticResource FioriEtiqueta}" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Producto.Precio, StringFormat='${0:N2} MXN'}" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Footer Toolbar: acciones abajo a la derecha, la principal en azul -->
+        <Border Grid.Row="1"
+                Style="{StaticResource FioriFooter}">
+            <HorizontalStackLayout HorizontalOptions="End"
+                                   Spacing="8">
+                <Button Text="Ver favoritos"
+                        Style="{StaticResource FioriBotonSecundario}"
+                        Command="{Binding IrAFavoritosCommand}" />
+                <Button Text="Agregar a favoritos"
+                        Command="{Binding AgregarFavoritoCommand}" />
+            </HorizontalStackLayout>
+        </Border>
+    </Grid>
 </ContentPage>

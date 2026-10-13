@@ -17,7 +17,24 @@ namespace RepasoMAUI
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    // Fuente oficial de SAP Fiori ("72")
+                    fonts.AddFont("72-Regular.ttf", "Fiori72");
+                    fonts.AddFont("72-Bold.ttf", "Fiori72Bold");
                 });
+
+            // Quitamos el borde/subrayado nativo del Entry: el borde de Fiori
+            // lo dibuja el Border con el estilo "FioriCampo"
+            Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("SinBordeNativo", (handler, view) =>
+            {
+#if ANDROID
+                handler.PlatformView.BackgroundTintList =
+                    Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#elif WINDOWS
+                handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+#elif IOS || MACCATALYST
+                handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#endif
+            });
 
             // Repositorio — Singleton: una sola instancia para toda la app
             builder.Services.AddSingleton<ProductoRepository>();

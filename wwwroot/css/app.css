@@ -1,89 +1,245 @@
-/* Estilos inspirados en SAP Fiori (colores y forma de "tiles"/tarjetas) */
-:root {
-    --fiori-shell: #354a5f;      /* barra superior (Shell Bar) */
-    --fiori-azul: #0a6ed1;       /* color de marca / botones */
-    --fiori-fondo: #f7f7f7;
-    --fiori-texto: #32363a;
-    --fiori-gris: #6a6d70;
-    --fiori-error: #bb0000;
-    --fiori-exito: #107e3e;
+/*
+    SAP Fiori Design Guidelines aplicadas con HTML/CSS (tema Horizon).
+    Los colores son los mismos de Resources/Styles/Colors.xaml,
+    así la parte Blazor y la parte XAML se ven como una sola app.
+*/
+
+/* ===== Tipografía oficial de SAP: "72" ===== */
+@font-face {
+    font-family: "72";
+    src: url("../fonts/72-Regular.woff2") format("woff2");
+    font-weight: 400;
 }
+
+@font-face {
+    font-family: "72";
+    src: url("../fonts/72-Bold.woff2") format("woff2");
+    font-weight: 700;
+}
+
+/* ===== Tokens (theming parameters de SAP) ===== */
+:root {
+    --sapBrandColor: #0070f2;
+    --sapButton_TextColor: #0064d9;
+    --sapShellColor: #ffffff;
+    --sapBackgroundColor: #f5f6f7;
+    --sapTile_Background: #ffffff;
+    --sapTextColor: #1d2d3e;
+    --sapContent_LabelColor: #556b82;
+    --sapField_PlaceholderTextColor: #8396a8;
+    --sapList_BorderColor: #e5e5e5;
+    --sapField_BorderColor: #556b81;
+    --sapButton_BorderColor: #bcc3ca;
+    --sapPositiveColor: #256f3a;
+    --sapNegativeColor: #aa0808;
+    --sapErrorBorderColor: #e90b0b;
+    --sapErrorBackground: #ffeaf4;
+
+    /* Espaciado base de Fiori: múltiplos de 0.5rem (8 px) */
+    --espacio: 1rem;
+}
+
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
     font-family: "72", Arial, Helvetica, sans-serif;
-    background: var(--fiori-fondo);
-    color: var(--fiori-texto);
+    font-size: 14px;
+    background: var(--sapBackgroundColor);
+    color: var(--sapTextColor);
 }
 
-/* Shell Bar */
+h1, h2, h3 { margin: 0; font-weight: 700; }
+
+/* ===== Shell Bar ===== */
 .shellbar {
-    background: var(--fiori-shell);
-    color: white;
-    padding: 12px 16px;
-    font-weight: bold;
+    background: var(--sapShellColor);
+    box-shadow: 0 2px 4px rgba(34, 53, 72, 0.15);
+    padding: 12px var(--espacio) 0 var(--espacio);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
-.shellbar nav { margin-top: 8px; }
-.shellbar nav a {
-    color: white;
-    margin-right: 14px;
+.shellbar .titulo-app {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Icon Tab Bar: pestañas con subrayado azul en la activa */
+.tabbar {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+}
+
+.tabbar a {
+    color: var(--sapContent_LabelColor);
     text-decoration: none;
-    font-weight: normal;
+    padding: 8px 0;
+    border-bottom: 3px solid transparent;
 }
 
-.contenido { padding: 16px; }
+.tabbar a.active {
+    color: var(--sapBrandColor);
+    border-bottom-color: var(--sapBrandColor);
+    font-weight: 700;
+}
 
-/* Tarjetas */
-.card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 2px rgba(0,0,0,.15), 0 2px 4px rgba(0,0,0,.1);
-    padding: 12px;
-    margin-bottom: 10px;
+/* ===== Página ===== */
+.contenido {
+    padding: var(--espacio);
+    padding-bottom: 80px; /* espacio para el Footer Toolbar */
+}
+
+.titulo-seccion {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+}
+
+.titulo-objeto { font-size: 20px; }
+
+.etiqueta { color: var(--sapContent_LabelColor); }
+
+/* ===== Tarjeta ===== */
+.tarjeta {
+    background: var(--sapTile_Background);
+    border: 1px solid var(--sapList_BorderColor);
+    border-radius: 12px;
+    margin-bottom: var(--espacio);
+    overflow: hidden;
+}
+
+.tarjeta.con-padding { padding: var(--espacio); }
+
+/* ===== Standard List Item ===== */
+.list-item {
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-.card img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
-.card .info { flex: 1; }
-.card .titulo { font-weight: bold; }
-.card .sub { color: var(--fiori-gris); font-size: 13px; }
-
-.precio { font-weight: bold; color: var(--fiori-exito); }
-
-/* Botones */
-.btn {
-    background: var(--fiori-azul);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 14px;
+    padding: 12px var(--espacio);
+    border-bottom: 1px solid var(--sapList_BorderColor);
     cursor: pointer;
 }
 
-.btn-sec {
-    background: white;
-    color: var(--fiori-azul);
-    border: 1px solid var(--fiori-azul);
+.list-item:last-child { border-bottom: none; }
+.list-item:active { background: #ebf8ff; } /* sapList_Active... (resaltado al tocar) */
+
+.avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--sapBackgroundColor);
 }
 
-/* Formularios */
+.list-item .textos { flex: 1; min-width: 0; }
+
+.list-item .item-titulo {
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.flecha { color: var(--sapContent_LabelColor); font-size: 24px; }
+
+/* Object Number: cifra en negritas + unidad en gris */
+.numero { font-weight: 700; font-size: 16px; white-space: nowrap; }
+.numero .unidad { font-weight: 400; font-size: 12px; color: var(--sapContent_LabelColor); }
+.numero.grande { font-size: 24px; }
+
+/* ===== Botones ===== */
+.btn {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 8px 16px;
+    min-height: 36px;
+    cursor: pointer;
+    background: var(--sapBrandColor);       /* Emphasized: acción principal */
+    color: white;
+    border: 1px solid var(--sapBrandColor);
+}
+
+.btn-sec {
+    background: var(--sapTile_Background);  /* Default: acciones secundarias */
+    color: var(--sapButton_TextColor);
+    border: 1px solid var(--sapButton_BorderColor);
+}
+
+/* ===== Footer Toolbar ===== */
+.footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--sapShellColor);
+    border-top: 1px solid var(--sapList_BorderColor);
+    padding: 8px var(--espacio);
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* ===== Formularios ===== */
+label { display: block; color: var(--sapContent_LabelColor); margin: 12px 0 4px 0; }
+label:first-child { margin-top: 0; }
+.obligatorio { color: var(--sapNegativeColor); }
+
 input, select {
     width: 100%;
-    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--sapTextColor);
     padding: 8px;
-    margin: 4px 0 12px 0;
-    border: 1px solid #89919a;
+    min-height: 36px;
+    background: var(--sapTile_Background);
+    border: 1px solid var(--sapField_BorderColor);
     border-radius: 4px;
 }
 
-.error, .validation-message { color: var(--fiori-error); }
-.exito { color: var(--fiori-exito); }
+input::placeholder { color: var(--sapField_PlaceholderTextColor); }
+input:focus, select:focus { outline: 2px solid var(--sapBrandColor); outline-offset: 1px; }
+
+/* Campo con error (Blazor agrega la clase "invalid") */
+input.invalid, select.invalid {
+    border-color: var(--sapErrorBorderColor);
+    background: var(--sapErrorBackground);
+}
+
+.validation-message { color: var(--sapNegativeColor); font-size: 12px; margin-top: 4px; }
+
+/* ===== Message Strip ===== */
+.message-strip {
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: var(--espacio);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.message-strip.error {
+    background: var(--sapErrorBackground);
+    border: 1px solid var(--sapErrorBorderColor);
+    color: var(--sapNegativeColor);
+}
+
+.positivo { color: var(--sapPositiveColor); }
+
+/* ===== Illustrated Message (estado vacío) ===== */
+.vacio { text-align: center; padding: 32px var(--espacio); }
+
+
+/* ===== Busy Indicator ===== */
+.busy { text-align: center; padding: 32px; color: var(--sapContent_LabelColor); }
 
 #blazor-error-ui {
-    background: lightyellow;
+    background: var(--sapErrorBackground);
     bottom: 0;
     display: none;
     left: 0;

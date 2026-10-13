@@ -66,5 +66,13 @@ namespace RepasoMAUI.ViewModels
             // Regresar a la lista (ahí aparecerá el nuevo producto)
             await Shell.Current.GoToAsync("..");
         }
+
+        // Regresa sin guardar
+        [RelayCommand]
+        private async Task Cancelar()
+        {
+            Mensaje = string.Empty;
+            await Shell.Current.GoToAsync("..");
+        }
     }
 }
