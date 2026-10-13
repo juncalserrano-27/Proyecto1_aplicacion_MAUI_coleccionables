@@ -1,70 +1,127 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:RepasoMAUI.Models"
+             xmlns:dtos="clr-namespace:RepasoMAUI.Data.DTOs"
              xmlns:vm="clr-namespace:RepasoMAUI.ViewModels"
              x:DataType="vm:ApiViewModel"
              x:Class="RepasoMAUI.Views.ApiPage"
-             Title="Catálogo Online">
+             Title="Catálogo XAML">
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,Auto,*"
+          Padding="16"
+          RowSpacing="12">
 
-        <!-- Ruedita de carga -->
+        <!-- Busy Indicator de Fiori -->
         <ActivityIndicator Grid.Row="0"
                            IsRunning="{Binding IsLoading}"
                            IsVisible="{Binding IsLoading}"
-                           Margin="20"
                            HorizontalOptions="Center" />
 
-        <!-- Mensaje de error + botón para reintentar -->
-        <VerticalStackLayout Grid.Row="0"
-                             IsVisible="{Binding HasError}"
-                             Padding="20"
-                             Spacing="10"
-                             HorizontalOptions="Center">
-            <Label Text="{Binding ErrorMessage}"
-                   TextColor="Red"
-                   HorizontalTextAlignment="Center" />
-            <Button Text="Reintentar"
-                    Command="{Binding CargarProductosCommand}" />
-        </VerticalStackLayout>
+        <!-- Message Strip de error + acción para reintentar -->
+        <Border Grid.Row="0"
+                Style="{StaticResource FioriMensajeError}"
+                IsVisible="{Binding HasError}">
+            <Grid ColumnDefinitions="*,Auto"
+                  ColumnSpacing="12">
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="{StaticResource FioriNegative}"
+                       VerticalOptions="Center" />
+                <Button Grid.Column="1"
+                        Text="Reintentar"
+                        Style="{StaticResource FioriBotonSecundario}"
+                        Command="{Binding CargarProductosCommand}" />
+            </Grid>
+        </Border>
+
+        <Label Grid.Row="1"
+               Style="{StaticResource FioriTituloSeccion}"
+               Text="{Binding Productos.Count, StringFormat='Productos ({0})'}"
+               IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
 
         <!-- Lista (visible solo cuando NO está cargando) -->
-        <CollectionView Grid.Row="1"
-                        ItemsSource="{Binding Productos}"
-                        IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-                        SelectionMode="None"
-                        Margin="10">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Producto">
-                    <Grid Padding="10" ColumnDefinitions="70,*,Auto">
-                        <Image Source="{Binding ImagenUrl}"
-                               HeightRequest="60"
-                               WidthRequest="60"
-                               Aspect="AspectFit"
-                               Grid.Column="0" />
+        <Border Grid.Row="2"
+                Style="{StaticResource FioriTarjeta}"
+                IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
+            <CollectionView ItemsSource="{Binding Productos}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:ProductoDto">
+                        <VerticalStackLayout>
+                            <Grid Padding="16,12"
+                                  ColumnSpacing="12"
+                                  ColumnDefinitions="56,*,Auto">
 
-                        <VerticalStackLayout Grid.Column="1"
-                                             Margin="10,0,0,0"
-                                             VerticalOptions="Center">
-                            <Label Text="{Binding Modelo}"
-                                   FontAttributes="Bold"
-                                   FontSize="15"
-                                   LineBreakMode="TailTruncation" />
-                            <Label Text="{Binding Color}"
-                                   FontSize="12"
-                                   TextColor="Gray" />
+                                <Border Style="{StaticResource FioriAvatar}"
+                                        HeightRequest="56"
+                                        WidthRequest="56">
+                                    <Image Source="{Binding ImagenUrl}"
+                                           Aspect="AspectFill" />
+                                </Border>
+
+                                <VerticalStackLayout Grid.Column="1"
+                                                     VerticalOptions="Center"
+                                                     Spacing="4">
+                                    <Label Text="{Binding Modelo}"
+                                           Style="{StaticResource FioriItemTitulo}" />
+                                    <!-- Propiedades calculadas del DTO -->
+                                    <Label Style="{StaticResource FioriEtiqueta}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding StockTotal, StringFormat='{0} pares ·&#160;'}" />
+                                                <Span Text="{Binding TallasDisponibles, StringFormat='{0} tallas'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <!-- Chip de estado (Object Status de Fiori) -->
+                                    <Border Style="{StaticResource FioriChip}"
+                                            HorizontalOptions="Start">
+                                        <Border.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Estado}" Value="Pocas piezas">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource FioriCriticalBackground}" />
+                                                <Setter Property="Stroke" Value="{StaticResource FioriCritical}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Estado}" Value="Agotado">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource FioriNegativeBackground}" />
+                                                <Setter Property="Stroke" Value="{StaticResource FioriNegative}" />
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                        <Label Text="{Binding Estado}"
+                                               FontFamily="Fiori72Bold"
+                                               FontSize="12"
+                                               TextColor="{StaticResource FioriPositive}">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Estado}" Value="Pocas piezas">
+                                                    <Setter Property="TextColor" Value="{StaticResource FioriCriticalText}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Estado}" Value="Agotado">
+                                                    <Setter Property="TextColor" Value="{StaticResource FioriNegative}" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Border>
+                                </VerticalStackLayout>
+
+                                <Label Grid.Column="2"
+                                       Style="{StaticResource FioriNumero}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Precio, StringFormat='${0:N2}'}"
+                                                  FontFamily="Fiori72Bold" />
+                                            <Span Text=" MXN"
+                                                  FontFamily="Fiori72"
+                                                  FontSize="12"
+                                                  TextColor="{StaticResource FioriLabel}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+
+                            <BoxView Style="{StaticResource FioriSeparador}" />
                         </VerticalStackLayout>
-
-                        <Label Text="{Binding Precio, StringFormat='${0:N2}'}"
-                               Grid.Column="2"
-                               VerticalOptions="Center"
-                               FontAttributes="Bold" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
     </Grid>
-
 </ContentPage>

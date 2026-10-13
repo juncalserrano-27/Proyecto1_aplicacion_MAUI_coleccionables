@@ -1,0 +1,22 @@
+@inherits LayoutComponentBase
+
+@* Shell Bar de Fiori (título de la app) + Icon Tab Bar para navegar *@
+<div class="shellbar">
+    <div class="titulo-app">Tienda de Tenis</div>
+    <nav class="tabbar">
+        <NavLink href="/" Match="NavLinkMatch.All">Catálogo</NavLink>
+        <NavLink href="/agregar">Agregar</NavLink>
+    </nav>
+</div>
+
+<div class="contenido">
+    @* Cascading parameter: todos los componentes de adentro pueden recibir "moneda"
+       sin pasarla como parámetro uno por uno *@
+    <CascadingValue Value="@moneda">
+        @Body
+    </CascadingValue>
+</div>
+
+@code {
+    private string moneda = "MXN";
+}

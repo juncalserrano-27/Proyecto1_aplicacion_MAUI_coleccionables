@@ -1,5 +1,3 @@
-﻿using RepasoMAUI.Views;
-
 namespace RepasoMAUI
 {
     public partial class AppShell : Shell
@@ -7,9 +5,6 @@ namespace RepasoMAUI
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(DetallePage), typeof(DetallePage));
-            Routing.RegisterRoute(nameof(FavoritosPage), typeof(FavoritosPage));
-            Routing.RegisterRoute(nameof(FormularioPage), typeof(FormularioPage));
         }
     }
 }

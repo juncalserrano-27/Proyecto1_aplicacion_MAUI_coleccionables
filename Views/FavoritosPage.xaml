@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -7,90 +6,94 @@
     xmlns:vm="clr-namespace:RepasoMAUI.ViewModels"
     x:Class="RepasoMAUI.Views.FavoritosPage"
     x:DataType="vm:FavoritosViewModel"
-    Title="❤️ Mis favoritos">
+    Title="Mis favoritos">
 
     <ContentPage.ToolbarItems>
-
         <ToolbarItem
-            Text="🗑️ Eliminar"
+            Text="Eliminar"
             Command="{Binding ActivarEliminarCommand}" />
-
     </ContentPage.ToolbarItems>
 
+    <Grid RowDefinitions="Auto,*"
+          Padding="16"
+          RowSpacing="12">
 
-    <CollectionView
-        ItemsSource="{Binding Favoritos}"
-        Margin="10">
+        <Label Grid.Row="0"
+               Style="{StaticResource FioriTituloSeccion}"
+               Text="{Binding Favoritos.Count, StringFormat='Favoritos ({0})'}" />
 
-        <CollectionView.EmptyView>
+        <Border Grid.Row="1"
+                Style="{StaticResource FioriTarjeta}">
+            <CollectionView ItemsSource="{Binding Favoritos}">
 
-            <VerticalStackLayout
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                Spacing="10">
+                <!-- "Illustrated Message" de Fiori: estado vacío con título y explicación -->
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Padding="24"
+                                         Spacing="8">
+                        <Image Source="corazon.png"
+                               HeightRequest="64"
+                               WidthRequest="64" />
+                        <Label Text="Aún no hay favoritos"
+                               Style="{StaticResource FioriTituloSeccion}"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="Agrega productos desde su detalle."
+                               Style="{StaticResource FioriEtiqueta}"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
 
-                <Label
-                    Text="❤️"
-                    FontSize="50"
-                    HorizontalTextAlignment="Center" />
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Producto">
+                        <VerticalStackLayout>
+                            <Grid Padding="16,12"
+                                  ColumnDefinitions="Auto,56,*,Auto">
 
-                <Label
-                    Text="No hay favoritos"
-                    FontSize="20"
-                    HorizontalTextAlignment="Center" />
+                                <CheckBox Grid.Column="0"
+                                          IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritosViewModel}}, Path=ModoEliminar}"
+                                          CheckedChanged="CheckBox_CheckedChanged"
+                                          Margin="0,0,8,0"
+                                          VerticalOptions="Center" />
 
-            </VerticalStackLayout>
+                                <Border Grid.Column="1"
+                                        Style="{StaticResource FioriAvatar}"
+                                        HeightRequest="56"
+                                        WidthRequest="56">
+                                    <Image Source="{Binding ImagenUrl}"
+                                           Aspect="AspectFill" />
+                                </Border>
 
-        </CollectionView.EmptyView>
+                                <VerticalStackLayout Grid.Column="2"
+                                                     Margin="12,0"
+                                                     VerticalOptions="Center"
+                                                     Spacing="2">
+                                    <Label Text="{Binding Modelo}"
+                                           Style="{StaticResource FioriItemTitulo}" />
+                                    <Label Text="{Binding Color}"
+                                           Style="{StaticResource FioriEtiqueta}" />
+                                </VerticalStackLayout>
 
+                                <Label Grid.Column="3"
+                                       Style="{StaticResource FioriNumero}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Precio, StringFormat='${0:N2}'}"
+                                                  FontFamily="Fiori72Bold" />
+                                            <Span Text=" MXN"
+                                                  FontFamily="Fiori72"
+                                                  FontSize="12"
+                                                  TextColor="{StaticResource FioriLabel}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
 
-        <CollectionView.ItemTemplate>
-
-            <DataTemplate x:DataType="models:Producto">
-
-                <Grid
-                    Padding="10"
-                    ColumnDefinitions="50,100,*,Auto"
-                    RowDefinitions="Auto">
-
-                    
-                    <CheckBox
-                        Grid.Column="0"
-                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritosViewModel}}, Path=ModoEliminar}"
-                        CheckedChanged="CheckBox_CheckedChanged"
-                        VerticalOptions="Center" />
-
-
-                    <Image
-                        Grid.Column="1"
-                        Source="{Binding ImagenUrl}"
-                        HeightRequest="80"
-                        WidthRequest="80"
-                        Aspect="AspectFit" />
-
-
-                    <Label
-                        Grid.Column="2"
-                        Text="{Binding Modelo}"
-                        FontSize="18"
-                        FontAttributes="Bold"
-                        VerticalOptions="Center"
-                        Margin="10,0" />
-
-
-                    <Label
-                        Grid.Column="3"
-                        Text="{Binding Precio, StringFormat='${0:N2}'}"
-                        FontSize="16"
-                        FontAttributes="Bold"
-                        VerticalOptions="Center" />
-
-                </Grid>
-
-            </DataTemplate>
-
-        </CollectionView.ItemTemplate>
-
-    </CollectionView>
-
+                            <BoxView Style="{StaticResource FioriSeparador}" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+    </Grid>
 </ContentPage>

@@ -1,0 +1,32 @@
+@* Componente hijo reutilizable: un "Standard List Item" de Fiori.
+   Recibe un producto y avisa al padre cuando lo seleccionan. *@
+<div class="list-item @(Seleccionado ? "seleccionado" : "")" @onclick="Seleccionar">
+    <img class="avatar" src="@($"images/{Producto.ImagenUrl}")" />
+    <div class="textos">
+        <div class="item-titulo">@Producto.Modelo</div>
+        <div class="etiqueta">@Producto.Color · @Producto.StockTotal pares</div>
+        <span class="chip @Producto.EstadoCss">@Producto.Estado</span>
+    </div>
+    <div class="numero">$@Producto.Precio.ToString("N2") <span class="unidad">@Moneda</span></div>
+    <span class="flecha">@(Seleccionado ? "⌃" : "⌄")</span>
+</div>
+
+@code {
+    // Parámetros que manda el componente padre
+    [Parameter]
+    public ProductoDto Producto { get; set; } = default!;
+
+    [Parameter]
+    public bool Seleccionado { get; set; }
+
+    // EventCallback: el hijo le avisa al padre qué producto se eligió
+    [Parameter]
+    public EventCallback<ProductoDto> OnProductoSeleccionado { get; set; }
+
+    // Llega desde el CascadingValue (sin nombre) del MainLayout
+    [CascadingParameter]
+    public string Moneda { get; set; } = string.Empty;
+
+    private async Task Seleccionar()
+        => await OnProductoSeleccionado.InvokeAsync(Producto);
+}

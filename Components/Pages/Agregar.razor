@@ -1,0 +1,90 @@
+@page "/agregar"
+@inject TiendaODataService Servicio
+@inject NavigationManager Navigation
+
+@* EditForm + DataAnnotationsValidator: OnValidSubmit solo se ejecuta
+   si TODAS las reglas del modelo se cumplen *@
+<EditForm Model="nuevo" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    @if (error is not null)
+    {
+        <div class="message-strip error">@error</div>
+    }
+
+    <h2 class="titulo-seccion">Nuevo producto</h2>
+
+    @* Formulario Fiori en móvil: etiqueta arriba del campo, obligatorios con asterisco,
+       mensaje de error debajo de cada campo *@
+    <div class="tarjeta con-padding">
+        <label>Modelo <span class="obligatorio">*</span></label>
+        <InputText @bind-Value="nuevo.Modelo" placeholder="Ej. LeBron 22" />
+        <ValidationMessage For="() => nuevo.Modelo" />
+
+        <label>Color <span class="obligatorio">*</span></label>
+        <InputText @bind-Value="nuevo.Color" placeholder="Ej. Negro/Rojo" />
+        <ValidationMessage For="() => nuevo.Color" />
+
+        <label>Precio (MXN) <span class="obligatorio">*</span></label>
+        <InputNumber @bind-Value="nuevo.Precio" />
+        <ValidationMessage For="() => nuevo.Precio" />
+
+        <label>Imagen <span class="obligatorio">*</span></label>
+        <InputSelect @bind-Value="nuevo.ImagenUrl">
+            <option value="">Selecciona una imagen</option>
+            <option value="ae_1_blancos.jpg">AE 1</option>
+            <option value="curry12_negros.jpg">Curry 12</option>
+            <option value="lebron_22_blancos.jpg">LeBron 22</option>
+            <option value="sabrina_dos_rosas.jpg">Sabrina 2</option>
+        </InputSelect>
+        <ValidationMessage For="() => nuevo.ImagenUrl" />
+    </div>
+
+    @* Footer Toolbar: Cancelar (Default) y Guardar (Emphasized) *@
+    <div class="footer">
+        <button type="button" class="btn btn-sec" @onclick='() => Navigation.NavigateTo("/")'>Cancelar</button>
+        <button type="submit" class="btn" disabled="@guardando">@(guardando ? "Guardando..." : "Guardar")</button>
+    </div>
+</EditForm>
+
+@code {
+    private ProductoForm nuevo = new();
+    private bool guardando;
+    private string? error;
+
+    // Solo llega aquí si pasó todas las validaciones
+    private async Task Guardar()
+    {
+        guardando = true;
+        error = await Servicio.CrearProductoAsync(new NuevoProductoDto
+        {
+            Modelo = nuevo.Modelo,
+            Color = nuevo.Color,
+            Precio = nuevo.Precio,
+            ImagenUrl = nuevo.ImagenUrl
+        });
+        guardando = false;
+
+        // Si el servicio lo guardó, regresamos al catálogo (ahí aparece el nuevo)
+        if (error is null)
+            Navigation.NavigateTo("/");
+    }
+
+    // Modelo del formulario con sus reglas de validación (DataAnnotations)
+    public class ProductoForm
+    {
+        [Required(ErrorMessage = "El modelo es obligatorio")]
+        [StringLength(40, MinimumLength = 2, ErrorMessage = "El modelo debe tener entre 2 y 40 caracteres")]
+        public string Modelo { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El color es obligatorio")]
+        [StringLength(20, ErrorMessage = "El color no puede pasar de 20 caracteres")]
+        public string Color { get; set; } = string.Empty;
+
+        [Range(1, 100000, ErrorMessage = "El precio debe estar entre 1 y 100,000")]
+        public decimal Precio { get; set; }
+
+        [Required(ErrorMessage = "Selecciona una imagen")]
+        public string ImagenUrl { get; set; } = string.Empty;
+    }
+}

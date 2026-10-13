@@ -1,0 +1,80 @@
+@page "/"
+@inject TiendaODataService Servicio
+
+@* Data binding: cada tecla actualiza "busqueda" y @bind:after manda llamar Buscar,
+   que le pide al servicio OData los productos con $filter *@
+<input placeholder="Buscar modelo..." @bind="busqueda" @bind:event="oninput" @bind:after="Buscar" />
+
+@if (cargando)
+{
+    @* Busy Indicator *@
+    <div class="busy">Cargando...</div>
+}
+else if (error is not null)
+{
+    @* Message Strip de error con acción para reintentar *@
+    <div class="message-strip error" style="margin-top:16px;">
+        <span>@error</span>
+        <button class="btn btn-sec" @onclick="Buscar">Reintentar</button>
+    </div>
+}
+else
+{
+    <h2 class="titulo-seccion" style="margin-top:16px;">Productos (@productos.Count)</h2>
+
+    <div class="tarjeta">
+        @if (productos.Count == 0)
+        {
+            @* Illustrated Message: estado vacío *@
+            <div class="vacio">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#556B82" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5 21 21" /></svg>
+                <h3>No hay resultados</h3>
+                <p class="etiqueta">Prueba con otro nombre.</p>
+            </div>
+        }
+
+        @* MASTER: la lista. Al tocar un producto se abre su DETAIL justo debajo *@
+        @foreach (var producto in productos)
+        {
+            <ProductoCard Producto="producto"
+                          Seleccionado="producto.Id == seleccionado?.Id"
+                          OnProductoSeleccionado="Seleccionar" />
+
+            @if (producto.Id == seleccionado?.Id)
+            {
+                @* CascadingValue con nombre: el panel lo recibe con
+                   [CascadingParameter(Name = "ProductoSeleccionado")] *@
+                <CascadingValue Value="seleccionado" Name="ProductoSeleccionado">
+                    <PanelDetalle />
+                </CascadingValue>
+            }
+        }
+    </div>
+}
+
+@code {
+    private List<ProductoDto> productos = new();
+    private ProductoDto? seleccionado;
+    private string busqueda = string.Empty;
+    private bool cargando;
+    private string? error;
+
+    // Ciclo de vida: al crear el componente pedimos la lista al servicio OData
+    protected override async Task OnInitializedAsync()
+    {
+        cargando = true;
+        await Buscar();
+        cargando = false;
+    }
+
+    private async Task Buscar()
+    {
+        (productos, error) = await Servicio.ObtenerProductosAsync(busqueda);
+        seleccionado = null;
+    }
+
+    // Se ejecuta cuando el hijo (ProductoCard) dispara el EventCallback.
+    // Tocar el mismo producto otra vez cierra el panel.
+    private void Seleccionar(ProductoDto producto)
+        => seleccionado = seleccionado?.Id == producto.Id ? null : producto;
+}

@@ -7,6 +7,9 @@ namespace RepasoMAUI
         public App()
         {
             InitializeComponent();
+
+            // Usamos el tema claro de Fiori (Horizon) en toda la app
+            UserAppTheme = AppTheme.Light;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
