@@ -34,6 +34,11 @@
     --sapNegativeColor: #aa0808;
     --sapErrorBorderColor: #e90b0b;
     --sapErrorBackground: #ffeaf4;
+    --sapSuccessBackground: #f5fae5;
+    --sapCriticalColor: #e76500;
+    --sapCriticalTextColor: #b44f00;
+    --sapWarningBackground: #fff8d6;
+    --sapList_SelectionBackgroundColor: #ebf8ff;
 
     /* Espaciado base de Fiori: múltiplos de 0.5rem (8 px) */
     --espacio: 1rem;
@@ -247,3 +252,81 @@ input.invalid, select.invalid {
     position: fixed;
     width: 100%;
 }
+
+/* ===== Botón Transparent (acciones de menor peso) ===== */
+.btn-transparente {
+    background: transparent;
+    color: var(--sapButton_TextColor);
+    border: 1px solid transparent;
+}
+
+.btn:disabled { opacity: 0.5; cursor: default; }
+
+/* ===== Chips de estado (Object Status "inverted") ===== */
+.chip {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid;
+    margin-top: 4px;
+}
+
+.chip.positivo { color: var(--sapPositiveColor); background: var(--sapSuccessBackground); border-color: var(--sapPositiveColor); }
+.chip.critico  { color: var(--sapCriticalTextColor); background: var(--sapWarningBackground); border-color: var(--sapCriticalColor); }
+.chip.negativo { color: var(--sapNegativeColor); background: var(--sapErrorBackground); border-color: var(--sapNegativeColor); }
+
+/* ===== Master-detail ===== */
+.list-item.seleccionado {
+    background: var(--sapList_SelectionBackgroundColor);
+    border-bottom-color: transparent;
+    box-shadow: inset 3px 0 0 var(--sapBrandColor);  /* barra azul a la izquierda */
+}
+
+.panel-detalle {
+    background: var(--sapList_SelectionBackgroundColor);
+    border-bottom: 1px solid var(--sapList_BorderColor);
+    padding: 0 var(--espacio) var(--espacio) var(--espacio);
+}
+
+.panel-detalle .tabla {
+    background: var(--sapTile_Background);
+    border-radius: 8px;
+}
+
+.panel-detalle .acciones {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+/* Indicadores (KPI) */
+.kpis {
+    display: flex;
+    gap: 32px;
+    padding: 8px 0 12px 0;
+}
+
+.tarjeta.kpis { padding: var(--espacio); }
+
+/* ===== Tabla (Responsive Table de Fiori) ===== */
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla th {
+    text-align: left;
+    font-weight: 400;
+    color: var(--sapContent_LabelColor);
+    padding: 8px var(--espacio);
+    border-bottom: 1px solid var(--sapList_BorderColor);
+}
+
+.tabla td {
+    padding: 8px var(--espacio);
+    border-bottom: 1px solid var(--sapList_BorderColor);
+}
+
+.tabla tr:last-child td { border-bottom: none; }

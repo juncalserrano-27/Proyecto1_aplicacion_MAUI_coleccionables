@@ -58,16 +58,17 @@ Regla de Fiori: **los colores semánticos (rojo, verde) solo se usan para comuni
 |---|---|---|
 | **Shell Bar** | Barra superior de toda la app | Blanca, con sombra y el título oscuro |
 | **Icon Tab Bar** | Pestaña Blazor (`MainLayout.razor`) | Pestañas con subrayado azul en la activa |
-| **List Report** | Catálogo, Favoritos, Catálogo Online, Northwind | Título con contador "Productos (4)" + lista dentro de una tarjeta |
+| **List Report** | Catálogo (Blazor), Catálogo XAML, Favoritos | Título con contador "Productos (4)" + lista dentro de una tarjeta |
 | **Standard List Item** | Cada producto de las listas | Imagen (avatar) + título + descripción gris + precio a la derecha + flecha `›` si abre un detalle |
 | **Object Number** | Precios | Cifra en negritas + unidad en gris (`$2,499.00 MXN`) |
-| **Object Page** | Detalle (XAML y Blazor) | Encabezado del objeto (imagen, nombre, precio) + sección "Información general" |
-| **Footer Toolbar** | Detalle y Agregar | Barra inferior con las acciones a la derecha; la principal en azul |
+| **Object Page** | Detalle (Blazor) | Encabezado del objeto (imagen, nombre, precio) + sección "Información general" |
+| **Footer Toolbar** | Detalle y Agregar (Blazor) | Barra inferior con las acciones a la derecha; la principal en azul |
 | **Botones Emphasized / Default** | Todos | Una sola acción principal azul por pantalla; las demás en blanco con borde |
-| **Formulario** | Agregar (XAML y Blazor) | Etiqueta arriba del campo (móvil), obligatorios con `*` rojo, campos con borde gris |
-| **Message Strip** | Errores del formulario y de las APIs | Recuadro rosa con borde rojo y el mensaje; en las APIs con botón "Reintentar" |
+| **Formulario** | Agregar (Blazor) | Etiqueta arriba del campo (móvil), obligatorios con `*` rojo, campos con borde gris |
+| **Message Strip** | Errores del formulario y del servicio OData | Recuadro rosa con borde rojo y el mensaje; en las APIs con botón "Reintentar" |
+| **Object Status (chips)** | Lista, panel, detalle y Catálogo XAML | Disponible (verde), Pocas piezas (naranja), Agotado (rojo) |
 | **Illustrated Message** | Favoritos vacío, búsqueda sin resultados | Ícono de línea + título + explicación corta |
-| **Busy Indicator** | Catálogo Online y Northwind | Indicador mientras cargan los datos |
+| **Busy Indicator** | Catálogo (Blazor) y Catálogo XAML | Indicador mientras cargan los datos |
 
 ---
 
@@ -75,11 +76,7 @@ Regla de Fiori: **los colores semánticos (rojo, verde) solo se usan para comuni
 
 **XAML (nativo)**
 - `Resources/Styles/Colors.xaml` y `Styles.xaml`: paleta y estilos de Fiori.
-- `Views/ListaPage.xaml`, `FavoritosPage.xaml`, `ApiPage.xaml`: List Report + Standard List Item.
-- `Views/DetallePage.xaml`: Object Page + Footer Toolbar.
-- `Views/FormularioPage.xaml`: formulario Fiori + Message Strip + Footer Toolbar.
-- `ViewModels/DetalleViewModel.cs`: mensaje "Agregado a favoritos".
-- `ViewModels/FormularioViewModel.cs`: comando `Cancelar` para el footer.
+- `Views/ApiPage.xaml` (Catálogo XAML) y `FavoritosPage.xaml`: List Report + Standard List Item + chips de estado.
 - `MauiProgram.cs`: registro de la fuente 72 y el handler del `Entry`.
 - `App.xaml.cs`: tema claro.
 - `Platforms/Android/Resources/values/colors.xml` y `RepasoMAUI.csproj`: color azul de Fiori en Android, el ícono y el splash.

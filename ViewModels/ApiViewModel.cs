@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using RepasoMAUI.Models;
+using RepasoMAUI.Data.DTOs;
 using RepasoMAUI.Services;
 using System.Collections.ObjectModel;
 
@@ -8,10 +8,12 @@ namespace RepasoMAUI.ViewModels
 {
     public partial class ApiViewModel : ObservableObject
     {
-        private readonly ProductoApiService _api;
+        // Antes: ProductoApiService con new HttpClient() hacia fakestoreapi.com
+        // Ahora: cliente tipado (AddHttpClient<T>) hacia nuestro servicio OData
+        private readonly TiendaODataService _servicio;
 
         [ObservableProperty]
-        private ObservableCollection<Producto> productos = new();
+        private ObservableCollection<ProductoDto> productos = new();
 
         [ObservableProperty]
         private bool isLoading;
@@ -20,12 +22,11 @@ namespace RepasoMAUI.ViewModels
         private bool hasError;
 
         [ObservableProperty]
-        private string errorMessage;
+        private string errorMessage = string.Empty;
 
-        public ApiViewModel(ProductoApiService api)
+        public ApiViewModel(TiendaODataService servicio)
         {
-            _api = api;
-            _ = CargarProductos();   // pedir los productos al arrancar la página
+            _servicio = servicio;
         }
 
         [RelayCommand]
@@ -34,7 +35,7 @@ namespace RepasoMAUI.ViewModels
             IsLoading = true;
             HasError = false;
 
-            var (resultado, error) = await _api.ObtenerProductosAsync();
+            var (resultado, error) = await _servicio.ObtenerProductosAsync();
 
             if (error is not null)
             {
@@ -43,7 +44,7 @@ namespace RepasoMAUI.ViewModels
             }
             else
             {
-                Productos = new ObservableCollection<Producto>(resultado);
+                Productos = new ObservableCollection<ProductoDto>(resultado);
             }
 
             IsLoading = false;

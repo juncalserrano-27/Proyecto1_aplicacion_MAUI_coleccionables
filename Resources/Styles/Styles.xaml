@@ -100,6 +100,16 @@
         <Setter Property="Padding" Value="12,10" />
     </Style>
 
+    <!-- Chip de estado (Object Status "inverted" de Fiori). Verde por defecto;
+         las páginas cambian a crítico/negativo con DataTriggers -->
+    <Style TargetType="Border" x:Key="FioriChip">
+        <Setter Property="BackgroundColor" Value="{StaticResource FioriPositiveBackground}" />
+        <Setter Property="Stroke" Value="{StaticResource FioriPositive}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 4" />
+        <Setter Property="Padding" Value="6,1" />
+    </Style>
+
     <!-- Imagen tipo "Avatar" cuadrado con esquinas redondeadas -->
     <Style TargetType="Border" x:Key="FioriAvatar">
         <Setter Property="StrokeThickness" Value="0" />

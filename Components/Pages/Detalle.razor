@@ -1,12 +1,17 @@
-@page "/producto/{Id}"
-@using RepasoMAUI.Views
-@inject ProductoRepository Repo
+@page "/producto/{Id:int}"
+@inject TiendaODataService Servicio
+@inject ProductoRepository Favoritos
 @inject NavigationManager Navigation
 @inject INavegacionService NavegacionNativa
 
-@if (producto is null)
+@if (cargando)
 {
-    <div class="message-strip error">Producto no encontrado.</div>
+    <div class="busy">Cargando...</div>
+}
+else if (producto is null)
+{
+    <div class="message-strip error">@(error ?? "Producto no encontrado.")</div>
+    <button class="btn btn-sec" @onclick="Regresar">Regresar</button>
 }
 else
 {
@@ -15,49 +20,94 @@ else
         <img src="@($"images/{producto.ImagenUrl}")" style="width:100%; max-height:240px; object-fit:cover; border-radius:8px;" />
         <h1 class="titulo-objeto" style="margin-top:12px;">@producto.Modelo</h1>
         <div class="etiqueta">@producto.Color</div>
-        <div class="numero grande" style="margin-top:8px;">$@producto.Precio.ToString("N2") <span class="unidad">MXN</span></div>
+        <div style="margin-top:8px; display:flex; align-items:center; justify-content:space-between;">
+            <div class="numero grande">$@producto.Precio.ToString("N2") <span class="unidad">MXN</span></div>
+            <span class="chip @producto.EstadoCss">@producto.Estado</span>
+        </div>
         <div class="positivo" style="margin-top:8px;">@mensaje</div>
     </div>
 
-    @* Sección del Object Page: formulario de solo lectura *@
-    <h2 class="titulo-seccion">Información general</h2>
-    <div class="tarjeta con-padding">
-        <div class="etiqueta">Modelo:</div>
-        <div style="margin-bottom:12px;">@producto.Modelo</div>
-        <div class="etiqueta">Color:</div>
-        <div>@producto.Color</div>
+    @* Sección: datos calculados a partir del inventario *@
+    <h2 class="titulo-seccion">Resumen</h2>
+    <div class="tarjeta con-padding kpis">
+        <div>
+            <div class="etiqueta">Stock total</div>
+            <div class="numero">@producto.StockTotal <span class="unidad">pares</span></div>
+        </div>
+        <div>
+            <div class="etiqueta">Tallas disponibles</div>
+            <div class="numero">@producto.TallasDisponibles <span class="unidad">de @producto.Inventarios.Count</span></div>
+        </div>
     </div>
 
-    @* Footer Toolbar: acciones abajo a la derecha, la principal en azul *@
+    @* Sección: registros relacionados *@
+    <h2 class="titulo-seccion">Inventario por talla</h2>
+    <div class="tarjeta">
+        <table class="tabla">
+            <thead>
+                <tr><th>Talla</th><th>Stock</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var inv in producto.Inventarios.OrderBy(i => i.Talla))
+                {
+                    <tr>
+                        <td>@inv.Talla.ToString("0.#")</td>
+                        <td>@inv.Stock</td>
+                        <td><span class="chip @inv.EstadoCss">@inv.Estado</span></td>
+                    </tr>
+                }
+                @if (producto.Inventarios.Count == 0)
+                {
+                    <tr><td colspan="3" class="etiqueta">Sin inventario registrado.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @* Footer Toolbar: Regresar (Default), Ver favoritos (Transparent), acción principal (Emphasized) *@
     <div class="footer">
-        <button class="btn btn-sec" @onclick='() => Navigation.NavigateTo("/")'>Regresar</button>
-        @* Convivencia Razor + MAUI: desde Blazor abrimos una página XAML nativa *@
-        <button class="btn btn-sec" @onclick="IrAFavoritosNativo">Ver favoritos</button>
+        <button class="btn btn-sec" @onclick="Regresar">Regresar</button>
+        @* Convivencia Razor + MAUI: abre la página XAML nativa de Favoritos *@
+        <button class="btn btn-transparente" @onclick="IrAFavoritos">Ver favoritos</button>
         <button class="btn" @onclick="AgregarFavorito">Agregar a favoritos</button>
     </div>
 }
 
 @code {
-    // Ruta parametrizada: el {Id} de la URL llega a esta propiedad
+    // Ruta parametrizada con restricción de tipo: /producto/{Id:int}
     [Parameter]
-    public string Id { get; set; } = string.Empty;
+    public int Id { get; set; }
 
-    private Producto? producto;
+    private ProductoDto? producto;
+    private bool cargando;
+    private string? error;
     private string mensaje = string.Empty;
 
-    // Ciclo de vida: se ejecuta cada vez que cambia un parámetro (el Id de la ruta)
-    protected override void OnParametersSet()
+    // Se usa OnParametersSetAsync (y no OnInitializedAsync) porque se ejecuta
+    // CADA VEZ que cambia el Id; OnInitializedAsync solo corre una vez.
+    protected override async Task OnParametersSetAsync()
     {
-        producto = Repo.ObtenerPorId(Id);
+        cargando = true;
         mensaje = string.Empty;
+        (producto, error) = await Servicio.ObtenerProductoAsync(Id);
+        cargando = false;
     }
+
+    private void Regresar() => Navigation.NavigateTo("/");
 
     private void AgregarFavorito()
     {
-        Repo.AgregarFavorito(producto!);
+        Favoritos.AgregarFavorito(new Producto
+        {
+            Id = producto!.Id.ToString(),
+            Modelo = producto.Modelo,
+            Color = producto.Color,
+            Precio = producto.Precio,
+            ImagenUrl = producto.ImagenUrl
+        });
         mensaje = "✓ Agregado a favoritos";
     }
 
-    private async Task IrAFavoritosNativo()
-        => await NavegacionNativa.IrAAsync(nameof(FavoritosPage));
+    private async Task IrAFavoritos()
+        => await NavegacionNativa.IrAAsync("//favoritos");
 }

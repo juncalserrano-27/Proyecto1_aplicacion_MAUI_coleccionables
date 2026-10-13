@@ -13,6 +13,8 @@
 		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
 		<OutputType>Exe</OutputType>
+		<!-- El servicio OData es otro proyecto: la app MAUI no debe compilar sus archivos -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);ServicioOData\**</DefaultItemExcludes>
 		<RootNamespace>RepasoMAUI</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
@@ -69,30 +71,8 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="Views\DetallePage - Copia.xaml.cs">
-	    <DependentUpon>FavoritosPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\FavoritosPage - Copia.xaml.cs">
-	    <DependentUpon>FormularioPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\ListaPage.xaml.cs">
-	    <DependentUpon>ListaPage.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="Views\FormularioPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\FavoritosPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\DetallePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<!-- AddHttpClient<T>: cliente tipado del servicio OData -->
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
 	</ItemGroup>
 
 </Project>

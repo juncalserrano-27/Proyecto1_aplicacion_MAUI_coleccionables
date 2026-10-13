@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:RepasoMAUI.Models"
+             xmlns:dtos="clr-namespace:RepasoMAUI.Data.DTOs"
              xmlns:vm="clr-namespace:RepasoMAUI.ViewModels"
              x:DataType="vm:ApiViewModel"
              x:Class="RepasoMAUI.Views.ApiPage"
-             Title="Catálogo Online">
+             Title="Catálogo XAML">
 
     <Grid RowDefinitions="Auto,Auto,*"
           Padding="16"
@@ -45,27 +45,61 @@
             <CollectionView ItemsSource="{Binding Productos}"
                             SelectionMode="None">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Producto">
+                    <DataTemplate x:DataType="dtos:ProductoDto">
                         <VerticalStackLayout>
                             <Grid Padding="16,12"
                                   ColumnSpacing="12"
                                   ColumnDefinitions="56,*,Auto">
 
                                 <Border Style="{StaticResource FioriAvatar}"
-                                        BackgroundColor="{StaticResource White}"
                                         HeightRequest="56"
                                         WidthRequest="56">
                                     <Image Source="{Binding ImagenUrl}"
-                                           Aspect="AspectFit" />
+                                           Aspect="AspectFill" />
                                 </Border>
 
                                 <VerticalStackLayout Grid.Column="1"
                                                      VerticalOptions="Center"
-                                                     Spacing="2">
+                                                     Spacing="4">
                                     <Label Text="{Binding Modelo}"
                                            Style="{StaticResource FioriItemTitulo}" />
-                                    <Label Text="{Binding Color}"
-                                           Style="{StaticResource FioriEtiqueta}" />
+                                    <!-- Propiedades calculadas del DTO -->
+                                    <Label Style="{StaticResource FioriEtiqueta}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding StockTotal, StringFormat='{0} pares ·&#160;'}" />
+                                                <Span Text="{Binding TallasDisponibles, StringFormat='{0} tallas'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <!-- Chip de estado (Object Status de Fiori) -->
+                                    <Border Style="{StaticResource FioriChip}"
+                                            HorizontalOptions="Start">
+                                        <Border.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Estado}" Value="Pocas piezas">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource FioriCriticalBackground}" />
+                                                <Setter Property="Stroke" Value="{StaticResource FioriCritical}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Estado}" Value="Agotado">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource FioriNegativeBackground}" />
+                                                <Setter Property="Stroke" Value="{StaticResource FioriNegative}" />
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                        <Label Text="{Binding Estado}"
+                                               FontFamily="Fiori72Bold"
+                                               FontSize="12"
+                                               TextColor="{StaticResource FioriPositive}">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Estado}" Value="Pocas piezas">
+                                                    <Setter Property="TextColor" Value="{StaticResource FioriCriticalText}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Estado}" Value="Agotado">
+                                                    <Setter Property="TextColor" Value="{StaticResource FioriNegative}" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Border>
                                 </VerticalStackLayout>
 
                                 <Label Grid.Column="2"
@@ -74,7 +108,7 @@
                                         <FormattedString>
                                             <Span Text="{Binding Precio, StringFormat='${0:N2}'}"
                                                   FontFamily="Fiori72Bold" />
-                                            <Span Text=" USD"
+                                            <Span Text=" MXN"
                                                   FontFamily="Fiori72"
                                                   FontSize="12"
                                                   TextColor="{StaticResource FioriLabel}" />

@@ -32,6 +32,10 @@
     <Color x:Key="FioriNegativeBorder">#E90B0B</Color>   <!-- sapErrorBorderColor -->
     <Color x:Key="FioriNegativeBackground">#FFEAF4</Color> <!-- sapErrorBackground -->
     <Color x:Key="FioriInfoBackground">#E1F4FF</Color>   <!-- sapInformationBackground -->
+    <Color x:Key="FioriPositiveBackground">#F5FAE5</Color> <!-- sapSuccessBackground -->
+    <Color x:Key="FioriCritical">#E76500</Color>         <!-- sapCriticalColor -->
+    <Color x:Key="FioriCriticalText">#B44F00</Color>     <!-- sapCriticalTextColor -->
+    <Color x:Key="FioriCriticalBackground">#FFF8D6</Color> <!-- sapWarningBackground -->
 
     <Color x:Key="White">White</Color>
 

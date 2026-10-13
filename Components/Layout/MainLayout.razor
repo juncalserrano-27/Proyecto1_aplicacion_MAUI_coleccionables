@@ -1,12 +1,11 @@
 @inherits LayoutComponentBase
 
-@* Icon Tab Bar de Fiori para navegar entre páginas
-   (el título ya lo muestra la Shell Bar nativa de MAUI) *@
+@* Shell Bar de Fiori (título de la app) + Icon Tab Bar para navegar *@
 <div class="shellbar">
+    <div class="titulo-app">Tienda de Tenis</div>
     <nav class="tabbar">
         <NavLink href="/" Match="NavLinkMatch.All">Catálogo</NavLink>
         <NavLink href="/agregar">Agregar</NavLink>
-        <NavLink href="/northwind">Northwind</NavLink>
     </nav>
 </div>
 

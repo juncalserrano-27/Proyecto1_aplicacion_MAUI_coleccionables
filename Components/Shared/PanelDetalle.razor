@@ -1,0 +1,50 @@
+@inject NavigationManager Navigation
+
+@* Panel de detalle del master-detail: muestra el producto seleccionado
+   con sus registros relacionados (inventario por talla) *@
+@if (Producto is not null)
+{
+    <div class="panel-detalle">
+        <div class="kpis">
+            <div>
+                <div class="etiqueta">Stock total</div>
+                <div class="numero">@Producto.StockTotal <span class="unidad">pares</span></div>
+            </div>
+            <div>
+                <div class="etiqueta">Tallas disponibles</div>
+                <div class="numero">@Producto.TallasDisponibles <span class="unidad">de @Producto.Inventarios.Count</span></div>
+            </div>
+        </div>
+
+        <table class="tabla">
+            <thead>
+                <tr><th>Talla</th><th>Stock</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var inv in Producto.Inventarios.OrderBy(i => i.Talla))
+                {
+                    <tr>
+                        <td>@inv.Talla.ToString("0.#")</td>
+                        <td>@inv.Stock</td>
+                        <td><span class="chip @inv.EstadoCss">@inv.Estado</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="acciones">
+            <button class="btn" @onclick="VerDetalleCompleto">Ver detalle completo</button>
+        </div>
+    </div>
+}
+
+@code {
+    // El producto seleccionado NO llega como [Parameter]:
+    // llega desde el <CascadingValue Name="ProductoSeleccionado"> del Catálogo
+    [CascadingParameter(Name = "ProductoSeleccionado")]
+    public ProductoDto? Producto { get; set; }
+
+    // Navegación con ruta parametrizada: /producto/{Id:int}
+    private void VerDetalleCompleto()
+        => Navigation.NavigateTo($"/producto/{Producto!.Id}");
+}
