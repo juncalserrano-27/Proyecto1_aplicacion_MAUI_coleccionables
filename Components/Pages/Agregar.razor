@@ -1,0 +1,65 @@
+@page "/agregar"
+@inject ProductoRepository Repo
+@inject NavigationManager Navigation
+
+<h2>Agregar producto</h2>
+
+@* EditForm + DataAnnotations: solo llama a Guardar si todas las reglas se cumplen *@
+<EditForm Model="nuevo" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <label>Modelo</label>
+    <InputText @bind-Value="nuevo.Modelo" />
+    <ValidationMessage For="() => nuevo.Modelo" />
+
+    <label>Color</label>
+    <InputText @bind-Value="nuevo.Color" />
+    <ValidationMessage For="() => nuevo.Color" />
+
+    <label>Precio</label>
+    <InputNumber @bind-Value="nuevo.Precio" />
+    <ValidationMessage For="() => nuevo.Precio" />
+
+    <label>Imagen</label>
+    <InputSelect @bind-Value="nuevo.ImagenUrl">
+        <option value="ae_1_blancos.jpg">AE 1</option>
+        <option value="curry12_negros.jpg">Curry 12</option>
+        <option value="lebron_22_blancos.jpg">LeBron 22</option>
+        <option value="sabrina_dos_rosas.jpg">Sabrina 2</option>
+    </InputSelect>
+
+    <button type="submit" class="btn">Guardar</button>
+</EditForm>
+
+@code {
+    private ProductoForm nuevo = new();
+
+    private void Guardar()
+    {
+        Repo.Agregar(new Producto
+        {
+            Modelo = nuevo.Modelo,
+            Color = nuevo.Color,
+            Precio = nuevo.Precio,
+            ImagenUrl = nuevo.ImagenUrl
+        });
+
+        // Regresar al catálogo (también aparece en la lista XAML)
+        Navigation.NavigateTo("/");
+    }
+
+    // Modelo del formulario con sus reglas de validación
+    public class ProductoForm
+    {
+        [Required(ErrorMessage = "El modelo es obligatorio")]
+        public string Modelo { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El color es obligatorio")]
+        public string Color { get; set; } = string.Empty;
+
+        [Range(1, 100000, ErrorMessage = "El precio debe estar entre 1 y 100,000")]
+        public decimal Precio { get; set; }
+
+        public string ImagenUrl { get; set; } = "ae_1_blancos.jpg";
+    }
+}

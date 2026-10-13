@@ -1,0 +1,27 @@
+@* Componente hijo reutilizable: recibe un producto y avisa al padre cuando lo seleccionan *@
+<div class="card">
+    <img src="@($"images/{Producto.ImagenUrl}")" />
+    <div class="info">
+        <div class="titulo">@Producto.Modelo</div>
+        <div class="sub">@Producto.Color</div>
+        <div class="precio">$@Producto.Precio.ToString("N2") @Moneda</div>
+    </div>
+    <button class="btn" @onclick="Seleccionar">Ver</button>
+</div>
+
+@code {
+    // Parámetro que manda el componente padre
+    [Parameter]
+    public Producto Producto { get; set; } = default!;
+
+    // EventCallback: el hijo le avisa al padre qué producto se eligió
+    [Parameter]
+    public EventCallback<Producto> OnProductoSeleccionado { get; set; }
+
+    // Llega desde el CascadingValue del MainLayout
+    [CascadingParameter]
+    public string Moneda { get; set; } = string.Empty;
+
+    private async Task Seleccionar()
+        => await OnProductoSeleccionado.InvokeAsync(Producto);
+}

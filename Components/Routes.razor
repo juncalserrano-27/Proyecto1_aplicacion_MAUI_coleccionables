@@ -1,0 +1,6 @@
+@* Router: busca los componentes que tienen @page y los muestra dentro del MainLayout *@
+<Router AppAssembly="@typeof(MauiProgram).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+</Router>

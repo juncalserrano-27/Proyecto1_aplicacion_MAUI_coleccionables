@@ -1,0 +1,23 @@
+@inherits LayoutComponentBase
+
+@* Shell Bar estilo SAP Fiori *@
+<div class="shellbar">
+    RepasoMAUI · Blazor Hybrid
+    <nav>
+        <NavLink href="/" Match="NavLinkMatch.All">Catálogo</NavLink>
+        <NavLink href="/agregar">Agregar</NavLink>
+        <NavLink href="/northwind">Northwind (OData)</NavLink>
+    </nav>
+</div>
+
+<div class="contenido">
+    @* Cascading parameter: todos los componentes de adentro pueden recibir "moneda"
+       sin pasarla como parámetro uno por uno *@
+    <CascadingValue Value="@moneda">
+        @Body
+    </CascadingValue>
+</div>
+
+@code {
+    private string moneda = "MXN";
+}

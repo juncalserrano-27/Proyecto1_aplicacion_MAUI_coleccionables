@@ -1,0 +1,39 @@
+@page "/"
+@inject ProductoRepository Repo
+@inject NavigationManager Navigation
+
+<h2>Catálogo</h2>
+
+@* Data binding: @bind con oninput filtra mientras escribes *@
+<input placeholder="Buscar producto..." @bind="busqueda" @bind:event="oninput" />
+
+@if (Filtrados.Count == 0)
+{
+    <p>No hay productos.</p>
+}
+
+@foreach (var producto in Filtrados)
+{
+    <ProductoCard Producto="producto" OnProductoSeleccionado="VerDetalle" />
+}
+
+@code {
+    private List<Producto> productos = new();
+    private string busqueda = string.Empty;
+
+    private List<Producto> Filtrados => productos
+        .Where(p => p.Modelo.Contains(busqueda, StringComparison.OrdinalIgnoreCase))
+        .ToList();
+
+    // Ciclo de vida: se ejecuta una vez al crear el componente
+    // (parecido a OnAppearing en MAUI). Aquí cargamos los datos iniciales.
+    protected override void OnInitialized()
+    {
+        // Es el mismo repositorio Singleton que usan las páginas XAML
+        productos = Repo.ObtenerTodos();
+    }
+
+    // Se ejecuta cuando el componente hijo (ProductoCard) dispara el EventCallback
+    private void VerDetalle(Producto producto)
+        => Navigation.NavigateTo($"/producto/{producto.Id}");
+}

@@ -15,4 +15,9 @@
                   ContentTemplate="{DataTemplate views:ApiPage}"
                   Route="api" />
 
+    <!-- 2do parcial: página nativa que hospeda el BlazorWebView -->
+    <ShellContent Title="Blazor"
+                  ContentTemplate="{DataTemplate views:BlazorPage}"
+                  Route="blazor" />
+
 </Shell>

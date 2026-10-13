@@ -1,0 +1,52 @@
+@page "/producto/{Id}"
+@using RepasoMAUI.Views
+@inject ProductoRepository Repo
+@inject NavigationManager Navigation
+@inject INavegacionService NavegacionNativa
+
+@if (producto is null)
+{
+    <p class="error">Producto no encontrado.</p>
+}
+else
+{
+    <div class="card" style="flex-direction:column; align-items:flex-start;">
+        <img src="@($"images/{producto.ImagenUrl}")" style="width:100%; height:auto;" />
+        <h2>@producto.Modelo</h2>
+        <div class="sub">@producto.Color</div>
+        <div class="precio">$@producto.Precio.ToString("N2")</div>
+
+        <button class="btn" @onclick="AgregarFavorito">❤️ Agregar a favoritos</button>
+        <span class="exito">@mensaje</span>
+
+        @* Convivencia Razor + MAUI: desde Blazor abrimos una página XAML nativa *@
+        <button class="btn btn-sec" @onclick="IrAFavoritosNativo">Ver favoritos (página XAML)</button>
+    </div>
+}
+
+<button class="btn btn-sec" @onclick='() => Navigation.NavigateTo("/")'>← Regresar</button>
+
+@code {
+    // Ruta parametrizada: el {Id} de la URL llega a esta propiedad
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    private Producto? producto;
+    private string mensaje = string.Empty;
+
+    // Ciclo de vida: se ejecuta cada vez que cambia un parámetro (el Id de la ruta)
+    protected override void OnParametersSet()
+    {
+        producto = Repo.ObtenerPorId(Id);
+        mensaje = string.Empty;
+    }
+
+    private void AgregarFavorito()
+    {
+        Repo.AgregarFavorito(producto!);
+        mensaje = "Agregado a favoritos";
+    }
+
+    private async Task IrAFavoritosNativo()
+        => await NavegacionNativa.IrAAsync(nameof(FavoritosPage));
+}

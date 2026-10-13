@@ -43,7 +43,25 @@ namespace RepasoMAUI
             builder.Services.AddTransient<ApiViewModel>();
             builder.Services.AddTransient<ApiPage>();
 
+            // ---- 2do parcial: Blazor Hybrid ----
+            // Habilita el BlazorWebView (los componentes Razor corren dentro de la app nativa)
+            builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddTransient<BlazorPage>();
+
+            // Navegación de Razor -> página XAML nativa
+            builder.Services.AddSingleton<INavegacionService, NavegacionService>();
+
+            // Servicio OData (Northwind)
+            builder.Services.AddSingleton<NorthwindService>();
+
+            // Ciclos de vida de servicios (service lifetimes):
+            //  - Singleton: una instancia para toda la app (ProductoRepository es compartido
+            //    por XAML y Razor, por eso un favorito agregado en Blazor aparece en la página XAML).
+            //  - Scoped: en Blazor Hybrid dura lo que vive el BlazorWebView.
+            //  - Transient: una instancia nueva cada vez que se pide.
+
 #if DEBUG
+            builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
 #endif
 

@@ -1,0 +1,50 @@
+@page "/northwind"
+@inject NorthwindService ODataService
+
+<h2>Productos Northwind (OData)</h2>
+<p class="sub">Precio mayor a $20, ordenados del más caro al más barato.</p>
+
+@if (cargando)
+{
+    <p>Cargando...</p>
+}
+else if (error is not null)
+{
+    <p class="error">@error</p>
+    <button class="btn" @onclick="Cargar">Reintentar</button>
+}
+else
+{
+    @foreach (var p in productos)
+    {
+        <div class="card">
+            <div class="info">
+                <div class="titulo">@p.ProductName</div>
+                <div class="sub">Existencias: @p.UnitsInStock</div>
+            </div>
+            <div class="precio">$@p.UnitPrice.ToString("N2")</div>
+        </div>
+    }
+}
+
+@code {
+    private List<NorthwindProductoDto> productos = new();
+    private bool cargando;
+    private string? error;
+
+    // Ciclo de vida asíncrono: ideal para pedir datos a un servicio
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        cargando = true;
+        error = null;
+
+        (productos, error) = await ODataService.ObtenerProductosAsync();
+
+        cargando = false;
+    }
+}
