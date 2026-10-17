@@ -5,37 +5,38 @@
 
     <!--
         Paleta de SAP Fiori (tema "Horizon").
-        Los nombres entre paréntesis son los "theming parameters" oficiales de SAP.
+        Valores oficiales tomados del paquete de SAP @sap-theming/theming-base-content
+        (archivo sap_horizon/css_variables.css). Entre paréntesis: el nombre del parámetro de SAP.
         Los mismos valores están en wwwroot/css/app.css para la parte Blazor.
     -->
 
     <!-- Marca y estructura -->
-    <Color x:Key="FioriBrand">#0070F2</Color>            <!-- sapBrandColor -->
-    <Color x:Key="FioriBrandText">#0064D9</Color>        <!-- sapButton_TextColor / links -->
-    <Color x:Key="FioriShell">#FFFFFF</Color>            <!-- sapShellColor -->
-    <Color x:Key="FioriBackground">#F5F6F7</Color>       <!-- sapBackgroundColor -->
-    <Color x:Key="FioriCard">#FFFFFF</Color>             <!-- sapTile_Background / sapGroup_ContentBackground -->
+    <Color x:Key="FioriBrand">#0070F2</Color>              <!-- sapBrandColor -->
+    <Color x:Key="FioriBrandText">#0064D9</Color>          <!-- sapButton_TextColor -->
+    <Color x:Key="FioriShell">#FFFFFF</Color>              <!-- sapShellColor -->
+    <Color x:Key="FioriBackground">#F5F6F7</Color>         <!-- sapBackgroundColor -->
+    <Color x:Key="FioriCard">#FFFFFF</Color>               <!-- sapTile_Background -->
+    <Color x:Key="FioriField">#FFFFFF</Color>              <!-- sapField_Background -->
 
     <!-- Texto -->
-    <Color x:Key="FioriText">#1D2D3E</Color>             <!-- sapTextColor -->
-    <Color x:Key="FioriLabel">#556B82</Color>            <!-- sapContent_LabelColor -->
-    <Color x:Key="FioriPlaceholder">#8396A8</Color>      <!-- sapField_PlaceholderTextColor -->
+    <Color x:Key="FioriText">#131E29</Color>               <!-- sapTextColor -->
+    <Color x:Key="FioriLabel">#556B82</Color>              <!-- sapContent_LabelColor -->
+    <Color x:Key="FioriPlaceholder">#556B82</Color>        <!-- sapField_PlaceholderTextColor -->
 
     <!-- Bordes -->
-    <Color x:Key="FioriBorder">#E5E5E5</Color>           <!-- sapList_BorderColor -->
-    <Color x:Key="FioriFieldBorder">#556B81</Color>      <!-- sapField_BorderColor -->
-    <Color x:Key="FioriButtonBorder">#BCC3CA</Color>     <!-- sapButton_BorderColor -->
+    <Color x:Key="FioriBorder">#E5E5E5</Color>             <!-- sapList_BorderColor -->
+    <Color x:Key="FioriFieldBorder">#556B81</Color>        <!-- sapField_BorderColor -->
+    <Color x:Key="FioriButtonBorder">#BCC3CA</Color>       <!-- sapButton_BorderColor -->
 
     <!-- Colores semánticos (solo para comunicar estado) -->
-    <Color x:Key="FioriPositive">#256F3A</Color>         <!-- sapPositiveColor -->
-    <Color x:Key="FioriNegative">#AA0808</Color>         <!-- sapNegativeColor -->
-    <Color x:Key="FioriNegativeBorder">#E90B0B</Color>   <!-- sapErrorBorderColor -->
-    <Color x:Key="FioriNegativeBackground">#FFEAF4</Color> <!-- sapErrorBackground -->
-    <Color x:Key="FioriInfoBackground">#E1F4FF</Color>   <!-- sapInformationBackground -->
+    <Color x:Key="FioriPositive">#256F3A</Color>           <!-- sapPositiveColor -->
     <Color x:Key="FioriPositiveBackground">#F5FAE5</Color> <!-- sapSuccessBackground -->
-    <Color x:Key="FioriCritical">#E76500</Color>         <!-- sapCriticalColor -->
-    <Color x:Key="FioriCriticalText">#B44F00</Color>     <!-- sapCriticalTextColor -->
+    <Color x:Key="FioriCritical">#E76500</Color>           <!-- sapCriticalColor -->
+    <Color x:Key="FioriCriticalText">#B44F00</Color>       <!-- sapCriticalTextColor -->
     <Color x:Key="FioriCriticalBackground">#FFF8D6</Color> <!-- sapWarningBackground -->
+    <Color x:Key="FioriNegative">#AA0808</Color>           <!-- sapNegativeColor -->
+    <Color x:Key="FioriNegativeBorder">#E90B0B</Color>     <!-- sapErrorBorderColor -->
+    <Color x:Key="FioriNegativeBackground">#FFEAF4</Color> <!-- sapErrorBackground -->
 
     <Color x:Key="White">White</Color>
 

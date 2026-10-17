@@ -6,19 +6,23 @@
     xmlns:views="clr-namespace:RepasoMAUI.Views"
     Title="RepasoMAUI">
 
+    <!-- Íconos de las pestañas: SAP-icons (cart, list, heart) -->
     <TabBar>
         <!-- Pantalla principal: Blazor Hybrid (master-detail, detalle y formulario) -->
         <ShellContent Title="Tienda"
+                      Icon="{FontImageSource FontFamily=SAPIcons, Glyph=&#xe043;, Color={StaticResource FioriBrand}}"
                       ContentTemplate="{DataTemplate views:BlazorPage}"
                       Route="tienda" />
 
         <!-- Catálogo nativo XAML que consume el mismo servicio OData -->
         <ShellContent Title="Catálogo XAML"
+                      Icon="{FontImageSource FontFamily=SAPIcons, Glyph=&#xe0a5;, Color={StaticResource FioriBrand}}"
                       ContentTemplate="{DataTemplate views:ApiPage}"
                       Route="catalogo" />
 
         <!-- Página XAML nativa a la que también se llega desde Razor -->
         <ShellContent Title="Favoritos"
+                      Icon="{FontImageSource FontFamily=SAPIcons, Glyph=&#xe293;, Color={StaticResource FioriBrand}}"
                       ContentTemplate="{DataTemplate views:FavoritosPage}"
                       Route="favoritos" />
     </TabBar>

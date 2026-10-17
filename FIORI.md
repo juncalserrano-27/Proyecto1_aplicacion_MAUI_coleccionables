@@ -16,8 +16,10 @@ Referencia: https://experience.sap.com/fiori-design-web/
 | `wwwroot/css/app.css` | Blazor | Los mismos colores como variables CSS (`--sapBrandColor`, etc.) y los mismos patrones |
 | `wwwroot/fonts/72-*.woff2` | Blazor | La fuente "72" cargada con `@font-face` |
 | `EntryHandler.Mapper` (en `MauiProgram.cs`) | XAML | Quita el borde nativo del `Entry` para dibujar el borde de Fiori |
+| `Resources/Fonts/SAP-icons.ttf` + `wwwroot/fonts/SAP-icons.woff2` | XAML y Blazor | Íconos oficiales de SAP (pestañas, búsqueda, chips, botones, estados vacíos) |
+| `Components/Shared/Icono.razor` | Blazor | Componente `<Icono Nombre="search" />` que traduce el nombre del ícono de SAP a su carácter |
 
-La fuente "72" sale del paquete oficial de SAP `@sap-theming/theming-base-content` (licencia Apache 2.0).
+Los **colores**, la fuente **"72"** y los **íconos SAP-icons** salen del paquete oficial de SAP `@sap-theming/theming-base-content` (licencia Apache 2.0): los colores del archivo `sap_horizon/css_variables.css` y los íconos de `sap_horizon/fonts/SAP-icons`.
 
 ---
 
@@ -31,7 +33,7 @@ Usamos los valores oficiales del tema Horizon, con el nombre del parámetro de S
 | Marca / botón principal | `#0070F2` | `sapBrandColor` |
 | Fondo de la página | `#F5F6F7` | `sapBackgroundColor` |
 | Barra superior (Shell) y tarjetas | `#FFFFFF` | `sapShellColor`, `sapTile_Background` |
-| Texto principal | `#1D2D3E` | `sapTextColor` |
+| Texto principal | `#131E29` | `sapTextColor` |
 | Texto secundario / etiquetas | `#556B82` | `sapContent_LabelColor` |
 | Separadores | `#E5E5E5` | `sapList_BorderColor` |
 | Error | `#AA0808` sobre `#FFEAF4` | `sapNegativeColor`, `sapErrorBackground` |

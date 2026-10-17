@@ -9,7 +9,7 @@
 
     @if (error is not null)
     {
-        <div class="message-strip error">@error</div>
+        <div class="message-strip error"><span><Icono Nombre="message-error" />@error</span></div>
     }
 
     <h2 class="titulo-seccion">Nuevo producto</h2>
@@ -43,7 +43,7 @@
     @* Footer Toolbar: Cancelar (Default) y Guardar (Emphasized) *@
     <div class="footer">
         <button type="button" class="btn btn-sec" @onclick='() => Navigation.NavigateTo("/")'>Cancelar</button>
-        <button type="submit" class="btn" disabled="@guardando">@(guardando ? "Guardando..." : "Guardar")</button>
+        <button type="submit" class="btn" disabled="@guardando"><Icono Nombre="save" />@(guardando ? "Guardando..." : "Guardar")</button>
     </div>
 </EditForm>
 
