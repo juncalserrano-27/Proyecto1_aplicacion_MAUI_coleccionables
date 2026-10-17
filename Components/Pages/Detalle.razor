@@ -66,10 +66,10 @@ else
 
     @* Footer Toolbar: Regresar (Default), Ver favoritos (Transparent), acción principal (Emphasized) *@
     <div class="footer">
-        <button class="btn btn-sec" @onclick="Regresar">Regresar</button>
+        <button class="btn btn-sec" @onclick="Regresar"><Icono Nombre="nav-back" />Regresar</button>
         @* Convivencia Razor + MAUI: abre la página XAML nativa de Favoritos *@
-        <button class="btn btn-transparente" @onclick="IrAFavoritos">Ver favoritos</button>
-        <button class="btn" @onclick="AgregarFavorito">Agregar a favoritos</button>
+        <button class="btn btn-transparente" @onclick="IrAFavoritos"><Icono Nombre="favorite-list" />Ver favoritos</button>
+        <button class="btn" @onclick="AgregarFavorito"><Icono Nombre="heart" />Agregar a favoritos</button>
     </div>
 }
 

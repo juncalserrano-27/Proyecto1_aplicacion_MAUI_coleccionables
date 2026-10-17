@@ -17,6 +17,20 @@
     font-weight: 700;
 }
 
+/* ===== Íconos oficiales de SAP: "SAP-icons" (tema Horizon) ===== */
+@font-face {
+    font-family: "SAP-icons";
+    src: url("../fonts/SAP-icons.woff2") format("woff2");
+}
+
+.icono {
+    font-family: "SAP-icons";
+    font-style: normal;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 /* ===== Tokens (theming parameters de SAP) ===== */
 :root {
     --sapBrandColor: #0070f2;
@@ -24,9 +38,9 @@
     --sapShellColor: #ffffff;
     --sapBackgroundColor: #f5f6f7;
     --sapTile_Background: #ffffff;
-    --sapTextColor: #1d2d3e;
+    --sapTextColor: #131e29;
     --sapContent_LabelColor: #556b82;
-    --sapField_PlaceholderTextColor: #8396a8;
+    --sapField_PlaceholderTextColor: #556b82;
     --sapList_BorderColor: #e5e5e5;
     --sapField_BorderColor: #556b81;
     --sapButton_BorderColor: #bcc3ca;
@@ -148,7 +162,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
     text-overflow: ellipsis;
 }
 
-.flecha { color: var(--sapContent_LabelColor); font-size: 24px; }
+.flecha { color: var(--sapContent_LabelColor); }
 
 /* Object Number: cifra en negritas + unidad en gris */
 .numero { font-weight: 700; font-size: 16px; white-space: nowrap; }
@@ -330,3 +344,23 @@ input.invalid, select.invalid {
 }
 
 .tabla tr:last-child td { border-bottom: none; }
+
+/* ===== Íconos dentro de componentes ===== */
+.tabbar a .icono { margin-right: 6px; font-size: 14px; }
+.btn .icono { margin-right: 6px; font-size: 14px; }
+.chip .icono { margin-right: 4px; font-size: 11px; }
+.flecha.icono { font-size: 16px; }
+
+/* Campo de búsqueda con lupa (Search Field de Fiori) */
+.busqueda { position: relative; }
+.busqueda .icono {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--sapContent_LabelColor);
+}
+.busqueda input { padding-left: 32px; }
+
+.vacio .icono { font-size: 48px; color: var(--sapContent_LabelColor); margin-bottom: 8px; }
+.message-strip .icono { margin-right: 8px; }

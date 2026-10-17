@@ -5,10 +5,10 @@
     <div class="textos">
         <div class="item-titulo">@Producto.Modelo</div>
         <div class="etiqueta">@Producto.Color · @Producto.StockTotal pares</div>
-        <span class="chip @Producto.EstadoCss">@Producto.Estado</span>
+        <span class="chip @Producto.EstadoCss"><Icono Nombre="@IconoEstado" />@Producto.Estado</span>
     </div>
     <div class="numero">$@Producto.Precio.ToString("N2") <span class="unidad">@Moneda</span></div>
-    <span class="flecha">@(Seleccionado ? "⌃" : "⌄")</span>
+    <span class="flecha"><Icono Nombre="@(Seleccionado ? "slim-arrow-up" : "slim-arrow-down")" /></span>
 </div>
 
 @code {
@@ -26,6 +26,14 @@
     // Llega desde el CascadingValue (sin nombre) del MainLayout
     [CascadingParameter]
     public string Moneda { get; set; } = string.Empty;
+
+    // Ícono del chip según el estado (Object Status de Fiori)
+    private string IconoEstado => Producto.EstadoCss switch
+    {
+        "positivo" => "sys-enter-2",
+        "critico" => "alert",
+        _ => "error"
+    };
 
     private async Task Seleccionar()
         => await OnProductoSeleccionado.InvokeAsync(Producto);

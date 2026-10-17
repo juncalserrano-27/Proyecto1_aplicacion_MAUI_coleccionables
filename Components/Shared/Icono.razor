@@ -1,0 +1,30 @@
+@* Ícono oficial de SAP Fiori (fuente SAP-icons del tema Horizon).
+   Uso: <Icono Nombre="search" />
+   Los códigos salen del catálogo oficial SAP-icons.json de SAP. *@
+<span class="icono" aria-hidden="true">@Glifo</span>
+
+@code {
+    [Parameter]
+    public string Nombre { get; set; } = string.Empty;
+
+    private static readonly Dictionary<string, char> Codigos = new()
+    {
+        ["search"] = '',
+        ["list"] = '',
+        ["add"] = '',
+        ["cart"] = '',
+        ["product"] = '',
+        ["slim-arrow-down"] = '',
+        ["slim-arrow-up"] = '',
+        ["nav-back"] = '',
+        ["heart"] = '',
+        ["favorite-list"] = '',
+        ["save"] = '',
+        ["sys-enter-2"] = '',   // estado positivo
+        ["alert"] = '',         // estado crítico
+        ["error"] = '',         // estado negativo
+        ["message-error"] = ''
+    };
+
+    private string Glifo => Codigos.TryGetValue(Nombre, out var c) ? c.ToString() : string.Empty;
+}

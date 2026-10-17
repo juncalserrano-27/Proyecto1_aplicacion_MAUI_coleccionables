@@ -3,7 +3,10 @@
 
 @* Data binding: cada tecla actualiza "busqueda" y @bind:after manda llamar Buscar,
    que le pide al servicio OData los productos con $filter *@
-<input placeholder="Buscar modelo..." @bind="busqueda" @bind:event="oninput" @bind:after="Buscar" />
+<div class="busqueda">
+    <Icono Nombre="search" />
+    <input placeholder="Buscar modelo..." @bind="busqueda" @bind:event="oninput" @bind:after="Buscar" />
+</div>
 
 @if (cargando)
 {
@@ -14,7 +17,7 @@ else if (error is not null)
 {
     @* Message Strip de error con acción para reintentar *@
     <div class="message-strip error" style="margin-top:16px;">
-        <span>@error</span>
+        <span><Icono Nombre="message-error" />@error</span>
         <button class="btn btn-sec" @onclick="Buscar">Reintentar</button>
     </div>
 }
@@ -27,7 +30,7 @@ else
         {
             @* Illustrated Message: estado vacío *@
             <div class="vacio">
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#556B82" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5 21 21" /></svg>
+                <Icono Nombre="search" />
                 <h3>No hay resultados</h3>
                 <p class="etiqueta">Prueba con otro nombre.</p>
             </div>

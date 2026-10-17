@@ -27,6 +27,8 @@ namespace RepasoMAUI
                     // Fuente oficial de SAP Fiori ("72")
                     fonts.AddFont("72-Regular.ttf", "Fiori72");
                     fonts.AddFont("72-Bold.ttf", "Fiori72Bold");
+                    // Íconos oficiales de SAP (SAP-icons, tema Horizon)
+                    fonts.AddFont("SAP-icons.ttf", "SAPIcons");
                 });
 
             // Quitamos el borde/subrayado nativo del Entry: el borde de Fiori

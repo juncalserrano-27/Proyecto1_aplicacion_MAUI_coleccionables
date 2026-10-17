@@ -32,9 +32,12 @@
                                          VerticalOptions="Center"
                                          Padding="24"
                                          Spacing="8">
-                        <Image Source="corazon.png"
-                               HeightRequest="64"
-                               WidthRequest="64" />
+                        <!-- Ícono oficial de SAP "heart" (U+E293) -->
+                        <Label Text="&#xe293;"
+                               FontFamily="SAPIcons"
+                               FontSize="56"
+                               TextColor="{StaticResource FioriLabel}"
+                               HorizontalTextAlignment="Center" />
                         <Label Text="Aún no hay favoritos"
                                Style="{StaticResource FioriTituloSeccion}"
                                HorizontalTextAlignment="Center" />
